@@ -4,10 +4,10 @@ DONE="Verified - you are done"
 NOT_DONE="No - you are not done"
 
 main() {
-    scenario_1_tests
-    scenario_2_tests
-    scenario_3_tests
-    scenario_4_tests
+   scenario_1_tests
+   scenario_2_tests
+   scenario_3_tests
+   scenario_4_tests
 }
 
 scenario_1_tests() {
@@ -45,8 +45,8 @@ scenario_4_tests() {
     test_that_verification_fails_for_scenario 4 ${DIR}
     pushd ${DIR} &> /dev/null
     echo 'I made this.' >> file.txt
-    git add file.txt
-    git commit -m "Added the file as requested."
+    git add file.txt &> /dev/null
+    git commit -m "Added the file as requested." &> /dev/null
     popd &> /dev/null
     test_that_verification_passes_for_scenario 4 ${DIR}
     rm -rf ${DIR} &> /dev/null

@@ -3,7 +3,7 @@
 main() {
     if [[ $1 == "--verify" ]] 
     then
-	check_that_configuration_is_properly_written $2
+	check_that_file_is_properly_committed $2
     else
 	setup_scenario
 	generate_description_file
@@ -63,10 +63,12 @@ Chapter 2.2 Git Basics - Recording Changes to the Repository
 EOF
 }
 
-check_that_configuration_is_properly_written() {
+
+check_that_file_is_properly_committed() {
     pushd $1 &> /dev/null
-    if [[ ($(git config --local core.editor) == "emacs -nw") &&  
-		($(git config --local merge.tool) ==  "kdiff3") ]]
+    FILE=$(git log --name-only --pretty=oneline 2>/dev/null | tail -n 1)
+    MSG=$(git log --name-only --pretty=oneline 2>/dev/null | head -n 1 | cut -d ' ' -f 2-)
+    if [[ ${FILE} == "file.txt" && ${MSG} == "Added the file as requested." ]]
     then
 	RES="Verified - you are done"
     else
