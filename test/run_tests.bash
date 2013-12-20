@@ -29,9 +29,19 @@ scenario_1_tests() {
 scenario_2_tests() {
     bash ../scenario_2.bash &> /dev/null
     DIR=$(cat repository.txt)
-    [[ $(bash ../scenario_2.bash --verify ${DIR}) == ${NOT_DONE} ]] && echo "T2_neg passed" || echo "T2_neg failed"
+    if [[ $(bash ../scenario_2.bash --verify ${DIR}) == ${NOT_DONE} ]] 
+    then
+	echo "T2_neg passed" 
+    else
+	echo "T2_neg failed"
+    fi
     echo '*.txt' > ${DIR}/.gitignore
-    [[ $(bash ../scenario_2.bash --verify ${DIR}) == ${DONE} ]] && echo "T2_pos passed" || echo "T2_pos failed"
+    if [[ $(bash ../scenario_2.bash --verify ${DIR}) == ${DONE} ]] 
+    then
+	echo "T2_pos passed" 
+    else
+	echo "T2_pos failed"
+    fi
     rm -rf ${DIR} &> /dev/null
 }
 
