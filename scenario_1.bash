@@ -46,7 +46,7 @@ EOF
 
 check_if_empty_git_repository_exists_at() {
     pushd $1 &> /dev/null
-    STATUS=$(git status | grep "\# Initial commit")
+    STATUS=$(git status 2>/dev/null | grep "\# Initial commit")
     if [[ ${STATUS} == "# Initial commit" ]]
     then
 	RES="Verified - you are done"
