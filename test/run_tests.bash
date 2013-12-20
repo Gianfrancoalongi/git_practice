@@ -6,6 +6,7 @@ NOT_DONE="No - you are not done"
 main() {
     scenario_1_tests
     scenario_2_tests
+    scenario_3_tests
 }
 
 scenario_1_tests() {
@@ -22,6 +23,18 @@ scenario_2_tests() {
     test_that_verification_fails_for_scenario 2 ${DIR}
     echo '*.txt' > ${DIR}/.gitignore
     test_that_verification_passes_for_scenario 2 ${DIR}
+    rm -rf ${DIR} &> /dev/null
+}
+
+scenario_3_tests() {
+    bash ../scenario_3.bash &> /dev/null
+    DIR=$(cat repository.txt)
+    test_that_verification_fails_for_scenario 3 ${DIR}
+    pushd ${DIR}
+    git config --local core.editor 'emacs -nw'
+    git config --local merge.tool kdiff3
+    popd
+    test_that_verification_passes_for_scenario 3 ${DIR}
     rm -rf ${DIR} &> /dev/null
 }
 
