@@ -30,10 +30,10 @@ scenario_3_tests() {
     bash ../scenario_3.bash &> /dev/null
     DIR=$(cat repository.txt)
     test_that_verification_fails_for_scenario 3 ${DIR}
-    pushd ${DIR}
+    pushd ${DIR} &> /dev/null
     git config --local core.editor 'emacs -nw'
     git config --local merge.tool kdiff3
-    popd
+    popd &> /dev/null
     test_that_verification_passes_for_scenario 3 ${DIR}
     rm -rf ${DIR} &> /dev/null
 }
