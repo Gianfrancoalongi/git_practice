@@ -8,6 +8,7 @@ main() {
    scenario_2_tests
    scenario_3_tests
    scenario_4_tests
+   scenario_5_tests
 }
 
 scenario_1_tests() {
@@ -49,6 +50,17 @@ scenario_4_tests() {
     git commit -m "Added the file as requested." &> /dev/null
     popd &> /dev/null
     test_that_verification_passes_for_scenario 4 ${DIR}
+    rm -rf ${DIR} &> /dev/null
+}
+
+scenario_5_tests() {
+    bash ../scenario_5.bash &> /dev/null
+    DIR=$(cat repository.txt)
+    test_that_verification_fails_for_scenario 5 ${DIR}
+    pushd ${DIR} &> /dev/null
+    git reset HEAD file.txt
+    popd &> /dev/null
+    test_that_verification_passes_for_scenario 5 ${DIR}
     rm -rf ${DIR} &> /dev/null
 }
 
