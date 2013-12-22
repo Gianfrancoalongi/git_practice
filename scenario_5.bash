@@ -68,7 +68,7 @@ Chapter 2.4 Git Basics - Undoing Things
 EOF
 }
 
-check_that_file_is_reset_in_index() {
+check_that_b_is_not_staged_for_commit() {
     pushd $1 &> /dev/null
     FILE=$(git log --name-only --pretty=oneline 2>/dev/null | tail -n 1)
     MSG=$(git log --name-only --pretty=oneline 2>/dev/null | head -n 1 | cut -d ' ' -f 2-)
