@@ -11,7 +11,9 @@ main() {
        bash ../scenario_${x}.bash &> /dev/null
        DIR=$(cat repository.txt)
        test_that_verification_fails_for_scenario ${x} ${DIR}
+       pushd ${DIR} &> /dev/null
        solution_for_scenario_${x} ${DIR}
+       popd &> /dev/null
        test_that_verification_passes_for_scenario ${x} ${DIR}
        rm -rf ${DIR} &> /dev/null
    done
@@ -30,36 +32,26 @@ solution_for_scenario_2() {
 }
 
 solution_for_scenario_3() {
-    pushd ${1} &> /dev/null
     git config --local core.editor 'emacs -nw'
     git config --local merge.tool kdiff3
-    popd &> /dev/null
 }
 
 solution_for_scenario_4() {
-    pushd ${1} &> /dev/null
     echo 'I made this.' >> file.txt
     git add file.txt &> /dev/null
     git commit -m "Added the file as requested." &> /dev/null
-    popd &> /dev/null
 }
 
 solution_for_scenario_5() {
-    pushd ${DIR} &> /dev/null
     git reset HEAD b.txt &> /dev/null
-    popd &> /dev/null
 }
 
 solution_for_scenario_6() {
-    pushd ${DIR} &> /dev/null
     git commit --amend -m 'Correct commit message.' &> /dev/null
-    popd &> /dev/null
 }
 
 solution_for_scenario_7() {
-    pushd ${DIR} &> /dev/null
     git checkout a.txt
-    popd &> /dev/null
 }
 
 
