@@ -58,7 +58,7 @@ scenario_5_tests() {
     DIR=$(cat repository.txt)
     test_that_verification_fails_for_scenario 5 ${DIR}
     pushd ${DIR} &> /dev/null
-    git reset HEAD file.txt
+    git reset HEAD b.txt &> /dev/null
     popd &> /dev/null
     test_that_verification_passes_for_scenario 5 ${DIR}
     rm -rf ${DIR} &> /dev/null

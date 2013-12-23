@@ -38,10 +38,11 @@ setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
     pushd ${SCENARIO_GIT_REPO} &> /dev/null
     git init . &> /dev/null
-    touch {a,b,c}.txt
-    git add {a,b,c}.txt
-    git commit -m 'First commit'
-    for i in {a,b,c}.txt; do echo 'change' >> ${i}; done    
+    touch {a,b,c}.txt &> /dev/null
+    git add {a,b,c}.txt &> /dev/null
+    git commit -m 'First commit' &> /dev/null
+    for i in {a,b,c}.txt; do echo 'change' >> ${i}; done     
+    git add {a,b,c}.txt &> /dev/null
     popd &> /dev/null
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
@@ -69,17 +70,35 @@ EOF
 }
 
 check_that_b_is_not_staged_for_commit() {
-    pushd $1 &> /dev/null
-    FILE=$(git log --name-only --pretty=oneline 2>/dev/null | tail -n 1)
-    MSG=$(git log --name-only --pretty=oneline 2>/dev/null | head -n 1 | cut -d ' ' -f 2-)
-    if [[ ${FILE} == "file.txt" && ${MSG} == "Added the file as requested." ]]
+    pushd ${1} &> /dev/null
+    FACIT_FILE=$(mktemp)
+    ACTUAL_FILE=$(mktemp)
+    cat > ${FACIT_FILE} <<EOF
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#       modified:   a.txt
+#       modified:   c.txt
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   b.txt
+#
+EOF
+    git status &> ${ACTUAL_FILE}
+    diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
+    if [[ $? == 0 ]]
     then
 	RES="Verified - you are done"
     else
 	RES="No - you are not done"
     fi
-    echo ${RES}
+    rm -f ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
     popd &> /dev/null
+    echo ${RES}
 }
 
 main $@
