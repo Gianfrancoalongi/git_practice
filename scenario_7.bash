@@ -75,7 +75,7 @@ check_that_a_has_no_modifications() {
  M b.txt
  M c.txt
 EOF
-    git status --short &>_FILE}
+    git status --short &> ${ACTUAL_FILE}
     diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
     if [[ $? == 0 ]]
     then
