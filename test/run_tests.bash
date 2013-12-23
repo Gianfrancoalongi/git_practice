@@ -10,6 +10,7 @@ main() {
    scenario_4_tests
    scenario_5_tests
    scenario_6_tests
+   scenario_7_tests
 }
 
 scenario_1_tests() {
@@ -74,6 +75,17 @@ scenario_6_tests() {
     popd &> /dev/null
     test_that_verification_passes_for_scenario 6 ${DIR}
     rm -rf ${DIR} &> /dev/null    
+}
+
+scenario_7_tests() {
+    bash ../scenario_7.bash &> /dev/null
+    DIR=$(cat repository.txt)
+    test_that_verification_fails_for_scenario 7 ${DIR}
+    pushd ${DIR} &> /dev/null
+    git checkout a.txt
+    popd &> /dev/null
+    test_that_verification_passes_for_scenario 7 ${DIR}
+    rm -rf ${DIR} &> /dev/null
 }
 
 
