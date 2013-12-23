@@ -6,7 +6,7 @@ NOT_DONE="No - you are not done"
 main() {
    scenario_1_tests
 
-   for((x=2;x<8;x++))
+   for((x=2;x<9;x++))
    do
        bash ../scenario_${x}.bash &> /dev/null
        DIR=$(cat repository.txt)
@@ -54,6 +54,9 @@ solution_for_scenario_7() {
     git checkout a.txt
 }
 
+solution_for_scenario_8() {
+    git checkout -b my_branch &> /dev/null
+}
 
 test_that_verification_fails_for_scenario() {
     if [[ $(bash ../scenario_${1}.bash --verify ${2}) == ${NOT_DONE} ]] 
