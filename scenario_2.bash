@@ -64,16 +64,29 @@ EOF
 }
 
 check_if_files_are_properly_ignored_at() {
-    pushd $1 &> /dev/null
-    if [[ ($(find . -name \*.txt | wc -l) == 100)  ]]
+    pushd ${1} &> /dev/null
+    FACIT_FILE=$(mktemp)
+    ACTUAL_FILE=$(mktemp)
+    cat > ${FACIT_FILE} <<EOF
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       .gitignore
+nothing added to commit but untracked files present (use "git add" to track)
+EOF
+    git status &> ${ACTUAL_FILE}
+    diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &>/dev/null
+    if [[ $? == 0 ]]
     then
-	if [[ $(git status | grep -A 100 "Untracked files:" | tail +4 | wc -l) == 2 ]]
-	then
-	    RES="Verified - you are done"
-	else
-	    RES="No - you are not done"
-	fi
+	RES="Verified - you are done"
+    else
+	RES="No - you are not done"
     fi
+    rm ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
     echo ${RES}
     popd &> /dev/null
 }
