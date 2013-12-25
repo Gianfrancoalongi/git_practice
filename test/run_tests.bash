@@ -6,7 +6,7 @@ NOT_DONE="No - you are not done"
 main() {
    scenario_1_tests
 
-   for((x=2;x<9;x++))
+   for((x=2;x<10;x++))
    do
        bash ../scenario_${x}.bash &> /dev/null
        DIR=$(cat repository.txt)
@@ -59,6 +59,12 @@ solution_for_scenario_8() {
     git add a.txt
     git commit -m 'Initial commit' &> /dev/null
     git checkout -b my_branch &> /dev/null
+}
+
+solution_for_scenario_9() {
+    git checkout master
+    git merge ahead_of_master
+    git branch -D ahead_of_master    
 }
 
 test_that_verification_fails_for_scenario() {
