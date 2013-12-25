@@ -55,6 +55,9 @@ solution_for_scenario_7() {
 }
 
 solution_for_scenario_8() {
+    touch a.txt
+    git add a.txt
+    git commit -m 'Initial commit' &> /dev/null
     git checkout -b my_branch &> /dev/null
 }
 
