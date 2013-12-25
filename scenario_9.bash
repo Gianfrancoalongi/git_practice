@@ -76,21 +76,37 @@ EOF
 
 check_that_branch_was_merged_and_deleted() {
     pushd ${1} &> /dev/null
-    FACIT_FILE=$(mktemp)
-    ACTUAL_FILE=$(mktemp)
-    cat > ${FACIT_FILE} <<EOF
-  master
-* my_branch
+    FACIT_FILE_BRANCH=$(mktemp)
+    ACTUAL_FILE_BRANCH=$(mktemp)
+    FACIT_FILE_LOG=$(mktemp)
+    ACTUAL_FILE_LOG=$(mktemp)
+    cat > ${FACIT_FILE_BRANCH} <<EOF
+* master
 EOF
-    git branch &> ${ACTUAL_FILE}
-    diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
-    if [[ $? == 0 ]]
+    cat > ${FACIT_FILE_LOG} <<EOF
+Three steps ahead
+Two steps ahead
+One step ahead
+Initial commit
+EOF
+    git branch &> ${ACTUAL_FILE_BRANCH}
+    git log --pretty=oneline | cut -d ' ' -f 2- &> ${ACTUAL_FILE_LOG}
+
+    diff -E -b ${FACIT_FILE_BRANCH} ${ACTUAL_FILE_BRANCH} &> /dev/null
+    R1=$?    
+    diff -E -b ${FACIT_FILE_LOG} ${ACTUAL_FILE_LOG} &> /dev/null
+    R2=$?
+
+    if [[ ${R1} == ${R2} && ${R2} == 0 ]]
     then
 	RES="Verified - you are done"
     else
 	RES="No - you are not done"
     fi
-    rm -f ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
+    rm -f ${FACIT_FILE_BRANCH} \
+	  ${ACTUAL_FILE_BRANCH} \
+	  ${FACIT_FILE_LOG} \
+	  ${ACTUAL_FILE_LOG} &> /dev/null
     popd &> /dev/null
     echo ${RES}
 }
