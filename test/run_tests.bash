@@ -62,9 +62,9 @@ solution_for_scenario_8() {
 }
 
 solution_for_scenario_9() {
-    git checkout master
-    git merge ahead_of_master
-    git branch -D ahead_of_master    
+    git checkout master &> /dev/null
+    git merge ahead_of_master &> /dev/null
+    git branch -D ahead_of_master &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {

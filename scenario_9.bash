@@ -45,7 +45,6 @@ setup_scenario() {
     echo 'line one' >> a.txt && git commit -a -m 'One step ahead'
     echo 'line two' >> a.txt && git commit -a -m 'Two steps ahead'
     echo 'line three' >> a.txt && git commit -a -m 'Three steps ahead'
-    git checkout master
     popd &> /dev/null
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
