@@ -83,8 +83,8 @@ check_that_branch_was_3p_merged_and_deleted() {
 EOF
     cat > ${FACIT_FILE_LOG} <<EOF
 *   Merge branch 'diverged'
-|\
-| * A is modded
+|\\
+| * A is modified
 * | B is modified
 |/
 * Initial commit
@@ -93,9 +93,12 @@ EOF
     git log --graph --format="%s" &> ${ACTUAL_FILE_LOG}
 
     diff -E -b ${FACIT_FILE_BRANCH} ${ACTUAL_FILE_BRANCH} &> /dev/null
-    R1=$?    
+    R1=$? 
     diff -E -b ${FACIT_FILE_LOG} ${ACTUAL_FILE_LOG} &> /dev/null
     R2=$?
+
+    cp ${FACIT_FILE_LOG} /tmp/facit
+    cp ${ACTUAL_FILE_LOG} /tmp/actual
 
     if [[ ${R1} == ${R2} && ${R2} == 0 ]]
     then
