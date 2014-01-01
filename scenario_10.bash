@@ -59,6 +59,11 @@ Merge the branch
 into the master branch so that the divergent histories
 are merged into a new commit.
 
+You can verify that this is properly done by visualizing
+the git repository commits with 
+
+    gitk --all
+
 You can find the repository location in the file named 
     repository.txt
 EOF
