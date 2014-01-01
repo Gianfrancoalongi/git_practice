@@ -39,13 +39,13 @@ setup_scenario() {
     pushd ${SCENARIO_GIT_REPO} &> /dev/null
     git init . &> /dev/null
     touch {a,b}.txt
-    git add {a,b}.txt 
-    git commit -m 'Initial commit'
-    git checkout -b diverged
-    echo 'line one' >> a.txt && git commit -a -m 'A is modified'
-    git checkout master
-    echo 'line one' >> b.txt && git commit -a -m 'B is modified'
-    git checkout diverged
+    git add {a,b}.txt &> /dev/null
+    git commit -m 'Initial commit' &> /dev/null
+    git checkout -b diverged &> /dev/null
+    echo 'line one' >> a.txt && git commit -a -m 'A is modified' &> /dev/null
+    git checkout master &> /dev/null
+    echo 'line one' >> b.txt && git commit -a -m 'B is modified' &> /dev/null
+    git checkout diverged &> /dev/null
     popd &> /dev/null
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
