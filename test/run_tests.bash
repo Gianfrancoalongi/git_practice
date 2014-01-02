@@ -74,7 +74,7 @@ solution_for_scenario_10() {
 
 solution_for_scenario_11() {
     git checkout working_branch &> /dev/null
-    git rebase master    
+    git rebase master &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {
