@@ -3,7 +3,7 @@
 main() {
     if [[ $1 == "--verify" ]] 
     then
-	check_that_we_cloned_remote_repository ${2}
+	check_that_we_have_fetched_and_merged_origin ${2}
     else
 	setup_scenario
 	generate_description_file
@@ -41,12 +41,13 @@ setup_scenario() {
     git init . &> /dev/null
     touch {a,b,c,d}.txt 
     git add {a,b,c,d}.txt &> /dev/null
-    git commit -m 'initial commi' &> /dev/null
+    git commit -m 'initial commit' &> /dev/null
     echo 'A is for algorithms' > a.txt && git commit -a -m 'Finished A' &> /dev/null
     echo 'B is for bits' > b.txt && git commit -a -m 'Finished B' &> /dev/null
     popd &> /dev/null
-    pushd /tmp
+    pushd /tmp &> /dev/null
     git clone ${SCENARIO_REMOTE_GIT_REPO} ${SCENARIO_GIT_REPO} &> /dev/null
+    popd &> /dev/null
     pushd ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
     echo 'C is for ciphers' > c.txt && git commit -a -m 'Finished C' &> /dev/null
     echo 'D is for decryption' > d.txt && git commit -a -m 'Finished D' &> /dev/null
@@ -80,24 +81,24 @@ Chapter 3.5 Git Branching - Remote Branches
 EOF
 }
 
-check_that_branch_rebased_on_top_of_latest_changes() {
+check_that_we_have_fetched_and_merged_origin() {
     pushd ${1} &> /dev/null
     FACIT_FILE_BRANCH=$(mktemp)
     ACTUAL_FILE_BRANCH=$(mktemp)
     FACIT_FILE_LOG=$(mktemp)
     ACTUAL_FILE_LOG=$(mktemp)
     cat > ${FACIT_FILE_BRANCH} <<EOF
-  master
-* working_branch
+  origin/HEAD -> origin/master
+  origin/master
 EOF
     cat > ${FACIT_FILE_LOG} <<EOF
-* B is modified again
-* B is modified
-* A is modified again
-* A is modified
-* Initial commit
+* Finished D
+* Finished C
+* Finished B
+* Finished A
+* initial commit
 EOF
-    git branch &> ${ACTUAL_FILE_BRANCH}
+    git branch -r &> ${ACTUAL_FILE_BRANCH}
     git log --graph --format="%s" &> ${ACTUAL_FILE_LOG}
 
     diff -E -b ${FACIT_FILE_BRANCH} ${ACTUAL_FILE_BRANCH} &> /dev/null

@@ -78,7 +78,7 @@ solution_for_scenario_11() {
 }
 
 solution_for_scenario_12() {
-    echo 'nothing'
+    git fetch 
 }
 
 test_that_verification_fails_for_scenario() {
