@@ -102,9 +102,6 @@ EOF
     diff -E -b ${FACIT_FILE_LOG} ${ACTUAL_FILE_LOG} &> /dev/null
     R2=$?
 
-    cp ${FACIT_FILE_LOG} /tmp/facit
-    cp ${ACTUAL_FILE_LOG} /tmp/actual
-
     if [[ ${R1} == ${R2} && ${R2} == 0 ]]
     then
 	RES="Verified - you are done"
