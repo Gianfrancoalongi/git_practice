@@ -78,7 +78,8 @@ solution_for_scenario_11() {
 }
 
 solution_for_scenario_12() {
-    git fetch 
+    git fetch &> /dev/null
+    git merge origin/master &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {
