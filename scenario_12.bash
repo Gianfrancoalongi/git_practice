@@ -39,10 +39,13 @@ setup_scenario() {
     SCENARIO_REMOTE_GIT_REPO=$(mktemp -d)
     pushd ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
     git init . &> /dev/null
-    touch {a,b,c,d}.txt
+    touch {a,b,c,d}.txt 
+    git add {a,b,c,d}.txt &> /dev/null
+    git commit -m 'initial commi' &> /dev/null
     echo 'A is for algorithms' > a.txt && git commit -a -m 'Finished A' &> /dev/null
     echo 'B is for bits' > b.txt && git commit -a -m 'Finished B' &> /dev/null
     popd &> /dev/null
+    pushd /tmp
     git clone ${SCENARIO_REMOTE_GIT_REPO} ${SCENARIO_GIT_REPO} &> /dev/null
     pushd ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
     echo 'C is for ciphers' > c.txt && git commit -a -m 'Finished C' &> /dev/null
@@ -53,9 +56,12 @@ setup_scenario() {
 
 generate_description_file() {
     cat > description.txt <<EOF
-Note that the repository is a clone of a remote repository.
-Note that the branch master in the origin has 2 additional
+Check that the repository is a clone of a remote repository.
+Check that the origin/master branch has 2 additional
 commits that we don't see in the clone.
+
+Get the local master branch up to par with the origin/remote
+branch.
 
 You can verify that this is properly done by visualizing
 the git repository commits with 
@@ -69,6 +75,7 @@ EOF
 
 generate_help_file() {
     cat > help.txt <<EOF
+Chapter 2.5 Git Basics - Working with Remotes
 Chapter 3.5 Git Branching - Remote Branches
 EOF
 }
