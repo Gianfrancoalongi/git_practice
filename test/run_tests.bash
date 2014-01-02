@@ -6,7 +6,7 @@ NOT_DONE="No - you are not done"
 main() {
    scenario_1_tests
 
-   for((x=2;x<=10;x++))
+   for((x=2;x<=11;x++))
    do
        bash ../scenario_${x}.bash &> /dev/null
        DIR=$(cat repository.txt)
@@ -70,6 +70,11 @@ solution_for_scenario_9() {
 solution_for_scenario_10() {
     git checkout master &> /dev/null
     git merge diverged &> /dev/null  
+}
+
+solution_for_scenario_11() {
+    git checkout working_branch &> /dev/null
+    git rebase master    
 }
 
 test_that_verification_fails_for_scenario() {
