@@ -20,6 +20,7 @@ You can always read
     description.txt to know what you need to do
     help.txt to get pointers on what to read in order to succeed
     repository.txt  to see where the scenario is created
+    remote_repository.txt to see where the remote is located
 *****************************************************************
 Run this script as
        $0 --verify ${SCENARIO_GIT_REPO}
