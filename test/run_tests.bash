@@ -4,9 +4,21 @@ DONE="Verified - you are done"
 NOT_DONE="No - you are not done"
 
 main() {
+
    scenario_1_tests
 
-   for((x=2;x<=13;x++))
+   for((x=2;x<=9;x++))
+   do
+       bash ../scenario_0${x}.bash &> /dev/null
+       DIR=$(cat repository.txt)
+       test_that_verification_fails_for_scenario 0${x} ${DIR}
+       pushd ${DIR} &> /dev/null
+       solution_for_scenario_${x} ${DIR}
+       popd &> /dev/null
+       test_that_verification_passes_for_scenario 0${x} ${DIR}
+       rm -rf ${DIR} &> /dev/null
+   done
+   for((x=10;x<=13;x++))
    do
        bash ../scenario_${x}.bash &> /dev/null
        DIR=$(cat repository.txt)
@@ -25,9 +37,9 @@ main() {
 
 scenario_1_tests() {
     DIR=$(mktemp -d)
-    test_that_verification_fails_for_scenario 1 ${DIR}
+    test_that_verification_fails_for_scenario 01 ${DIR}
     git init ${DIR} &> /dev/null
-    test_that_verification_passes_for_scenario 1 ${DIR}
+    test_that_verification_passes_for_scenario 01 ${DIR}
     rm -rf ${DIR} &> /dev/null
 }
 
