@@ -79,6 +79,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 2.5 Git Basics - Working with Remotes
+Git man page: git help remote
 EOF
 }
 
@@ -89,18 +90,20 @@ check_that_we_have_fetched_and_merged_origin() {
     FACIT_FILE_LOG=$(mktemp)
     ACTUAL_FILE_LOG=$(mktemp)
     cat > ${FACIT_FILE_BRANCH} <<EOF
-  origin/HEAD -> origin/master
-  origin/master
+* master
+  remotes/the_remote_repository/master
 EOF
     cat > ${FACIT_FILE_LOG} <<EOF
 * Finished D
 * Finished C
+* initial commit
 * Finished B
 * Finished A
 * initial commit
 EOF
-    git branch -r &> ${ACTUAL_FILE_BRANCH}
-    git log --graph --format="%s" &> ${ACTUAL_FILE_LOG}
+    git branch -a &> ${ACTUAL_FILE_BRANCH}
+    git log master --graph --format="%s" &>> ${ACTUAL_FILE_LOG}
+    git log the_remote_repository/master --graph --format="%s" &>> ${ACTUAL_FILE_LOG}
 
     diff -E -b ${FACIT_FILE_BRANCH} ${ACTUAL_FILE_BRANCH} &> /dev/null
     R1=$? 
