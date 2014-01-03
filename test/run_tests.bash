@@ -6,7 +6,7 @@ NOT_DONE="No - you are not done"
 main() {
    scenario_1_tests
 
-   for((x=2;x<=12;x++))
+   for((x=2;x<=13;x++))
    do
        bash ../scenario_${x}.bash &> /dev/null
        DIR=$(cat repository.txt)
@@ -80,6 +80,10 @@ solution_for_scenario_11() {
 solution_for_scenario_12() {
     git fetch &> /dev/null
     git merge origin/master &> /dev/null
+}
+
+solution_for_scenario_13() {
+    git remote add /tmp/
 }
 
 test_that_verification_fails_for_scenario() {
