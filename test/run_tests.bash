@@ -7,7 +7,7 @@ main() {
 
    scenario_1_tests
 
-   for((x=2;x<=13;x++))
+   for((x=2;x<=14;x++))
    do
        if [[ ${x} -lt 10 ]]
        then
@@ -96,6 +96,10 @@ solution_for_scenario_12() {
 solution_for_scenario_13() {
     git remote add the_remote_repository ${REMOTE} &> /dev/null
     git fetch the_remote_repository &> /dev/null
+}
+
+solution_for_scenario_14() {
+    git remote rename the_remote_repository other_repository &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {
