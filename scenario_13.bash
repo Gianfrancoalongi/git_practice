@@ -54,16 +54,17 @@ setup_scenario() {
     echo 'D is for decryption' > d.txt && git commit -a -m 'Finished D' &> /dev/null
     popd &> /dev/null
     echo ${SCENARIO_GIT_REPO} > repository.txt
+    echo ${SCENARIO_REMOTE_GIT_REPO} > remote_repository.txt
 }
 
 generate_description_file() {
     cat > description.txt <<EOF
 Add the repository in ${SCENARIO_REMOTE_GIT_REPO} as a remote
-and name it 
+and identify it using 
 
     the_remote_repository
 
-Fetch the branches and changes from the remote.
+as the short name. Fetch the commits from the new remote.
 Do not merge the fetched changes!
 
 You can verify that this is properly done by visualizing
@@ -73,6 +74,8 @@ the git repository commits with
 
 You can find the repository location in the file named 
     repository.txt
+You can find the remote repository in the file named
+    remote_repository.txt
 EOF
 }
 
@@ -83,7 +86,7 @@ Git man page: git help remote
 EOF
 }
 
-check_that_we_have_fetched_and_merged_origin() {
+check_that_remote_was_properly_added_and_fetched() {
     pushd ${1} &> /dev/null
     FACIT_FILE_BRANCH=$(mktemp)
     ACTUAL_FILE_BRANCH=$(mktemp)

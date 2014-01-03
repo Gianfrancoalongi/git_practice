@@ -10,6 +10,10 @@ main() {
    do
        bash ../scenario_${x}.bash &> /dev/null
        DIR=$(cat repository.txt)
+       if [[ ${x} -gt 12 ]]
+       then
+	   REMOTE=$(cat remote_repository.txt)
+       fi
        test_that_verification_fails_for_scenario ${x} ${DIR}
        pushd ${DIR} &> /dev/null
        solution_for_scenario_${x} ${DIR}
@@ -83,7 +87,8 @@ solution_for_scenario_12() {
 }
 
 solution_for_scenario_13() {
-    git remote add /tmp/
+    git remote add the_remote_repository ${REMOTE} &> /dev/null
+    git fetch the_remote_repository &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {
