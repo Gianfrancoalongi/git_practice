@@ -53,7 +53,8 @@ setup_scenario() {
     git commit -m 'initial commit' &> /dev/null
     echo 'C is for ciphers' > c.txt && git commit -a -m 'Finished C' &> /dev/null
     echo 'D is for decryption' > d.txt && git commit -a -m 'Finished D' &> /dev/null
-    git remote add the_remote_repository ${SCENARIO_REMOTE_GIT_REPO}
+    git remote add the_remote_repository ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
+    git fetch the_remote_repository &> /dev/null
     popd &> /dev/null
     echo ${SCENARIO_GIT_REPO} > repository.txt
     echo ${SCENARIO_REMOTE_GIT_REPO} > remote_repository.txt
