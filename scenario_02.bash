@@ -14,24 +14,28 @@ main() {
 
 show_scenario_text() {
     cat <<EOF
-*****************************************************************
-Scenario set up.
-You can always read 
-    description.txt to know what you need to do
-    help.txt to get pointers on what to read in order to succeed
-    repository.txt  to see where the scenario is created
-*****************************************************************
-Run this script as
-       $0 --verify ${SCENARIO_GIT_REPO}
-when you think you are done
-*****************************************************************
+=================================================================
+Your scenario GIT repository is in ${SCENARIO_GIT_REPO}
+=================================================================
 EOF
-echo "> description.txt"
 cat description.txt
-echo "*****************************************************************"
-echo "> help.txt"
+cat <<EOF
+=================================================================
+Recommended reading in Pro Git            http://git-scm.com/book
+EOF
 cat help.txt
-echo "*****************************************************************"
+cat <<EOF
+=================================================================
+Run this script as
+       bash $0 --verify ${SCENARIO_GIT_REPO}
+when you think you are done
+=================================================================
+You can always read 
+    description.txt To know what you need to do
+    help.txt        To get Pointers on what to read
+    repository.txt  To see where the scenario GIT repository is
+=================================================================
+EOF
 }
 
 setup_scenario() {
@@ -45,21 +49,16 @@ setup_scenario() {
 
 generate_description_file() {
     cat > description.txt <<EOF
-Make sure that all *.txt files are properly ignored in the git repo 
-which can be found in 
-    ${SCENARIO_GIT_REPO}
-when issuing the command
-    git status
-
-You can find the repository location in the file named 
-    repository.txt
+Ensure that all *.txt files are properly ignored in the git repo.
+Thus, when issuing the commang 'git status' you should not get
+a listing of all the *.txt files.
 EOF
 }
 
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 2.2 Git Basisc - Recording Changes to the Repository
- subchapter Ignoring Files.
+subchapter Ignoring Files.
 EOF
 }
 
