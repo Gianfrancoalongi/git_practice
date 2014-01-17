@@ -8,7 +8,7 @@ main() {
 	setup_scenario
 	generate_description_file
 	generate_help_file
-	bash user_text.bash
+	bash user_text.bash $0
     fi
 }
 
