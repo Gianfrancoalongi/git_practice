@@ -14,25 +14,28 @@ main() {
 
 show_scenario_text() {
     cat <<EOF
-*****************************************************************
-Scenario set up.
-You can always read 
-    description.txt to know what you need to do
-    help.txt to get pointers on what to read in order to succeed
-    repository.txt  to see where the scenario is created
-    remote_repository.txt to see where the remote is located
-*****************************************************************
-Run this script as
-       $0 --verify ${SCENARIO_GIT_REPO}
-when you think you are done
-*****************************************************************
+=================================================================
+Your scenario GIT repository is in ${SCENARIO_GIT_REPO}
+=================================================================
 EOF
-echo "> description.txt"
 cat description.txt
-echo "*****************************************************************"
-echo "> help.txt"
+cat <<EOF
+=================================================================
+Recommended reading in Pro Git            http://git-scm.com/book
+EOF
 cat help.txt
-echo "*****************************************************************"
+cat <<EOF
+=================================================================
+Run this script as
+       bash $0 --verify ${SCENARIO_GIT_REPO}
+when you think you are done
+=================================================================
+You can always read 
+    description.txt To know what you need to do
+    help.txt        To get Pointers on what to read
+    repository.txt  To see where the scenario GIT repository is
+=================================================================
+EOF
 }
 
 setup_scenario() {
@@ -61,22 +64,11 @@ setup_scenario() {
 generate_description_file() {
     cat > description.txt <<EOF
 Add the repository in ${SCENARIO_REMOTE_GIT_REPO} as a remote
-and identify it using 
-
-    the_remote_repository
-
-as the short name. Fetch the commits from the new remote.
-Do not merge the fetched changes!
+and identify it using 'the_remote_repository' as the short name. 
+Fetch the commits from the new remote. Do not merge the changes!
 
 You can verify that this is properly done by visualizing
-the git repository commits with 
-
-    gitk --all
-
-You can find the repository location in the file named 
-    repository.txt
-You can find the remote repository in the file named
-    remote_repository.txt
+the git repository commits with 'gitk --all'
 EOF
 }
 
