@@ -8,34 +8,8 @@ main() {
 	setup_scenario
 	generate_description_file
 	generate_help_file
-	show_scenario_text
+        bash user_text.bash $0
     fi
-}
-
-show_scenario_text() {
-    cat <<EOF
-=================================================================
-Your scenario GIT repository is in ${SCENARIO_GIT_REPO}
-=================================================================
-EOF
-cat description.txt
-cat <<EOF
-=================================================================
-Recommended reading in Pro Git            http://git-scm.com/book
-EOF
-cat help.txt
-cat <<EOF
-=================================================================
-Run this script as
-       bash $0 --verify ${SCENARIO_GIT_REPO}
-when you think you are done
-=================================================================
-You can always read 
-    description.txt To know what you need to do
-    help.txt        To get Pointers on what to read
-    repository.txt  To see where the scenario GIT repository is
-=================================================================
-EOF
 }
 
 setup_scenario() {

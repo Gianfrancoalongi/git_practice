@@ -12,31 +12,32 @@ main() {
 }
 
 show_scenario_text() {
-    cat <<EOF
-*****************************************************************
-Scenario set up.
-You can always read 
-    description.txt to know what you need to do
-    help.txt to get pointers on what to read in order to succeed
-*****************************************************************
-Run this script as
-       $0 --verify PATH_TO_YOUR_REPOSITORY
-when you think you are done
-*****************************************************************
+cat <<EOF
+=================================================================
 EOF
-echo "> description.txt"
 cat description.txt
-echo "*****************************************************************"
-echo "> help.txt"
+cat <<EOF
+=================================================================
+Recommended reading in Pro Git            http://git-scm.com/book
+EOF
 cat help.txt
-echo "*****************************************************************"
+cat <<EOF
+=================================================================
+Run this script as
+       bash $0 --verify \${PATH_TO_NEW_GIT_REPOSITORY}
+when you think you are done
+=================================================================
+You can always read 
+    description.txt To know what you need to do
+    help.txt        To get Pointers on what to read
+=================================================================
+EOF
 }
 
 generate_description_file() {
     cat > description.txt <<EOF
-Set up an empty git repository somewhere on your system.
-This could be anywhere, in a new directory in /tmp or in 
-your current working directory.
+Set up an empty git repository somewhere on your system. 
+This could be anywhere, for example in a new directory in /tmp.
 EOF
 }
 
