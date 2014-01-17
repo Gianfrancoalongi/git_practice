@@ -12,26 +12,31 @@ main() {
     fi
 }
 
+
 show_scenario_text() {
     cat <<EOF
-*****************************************************************
-Scenario set up.
-You can always read 
-    description.txt to know what you need to do
-    help.txt to get pointers on what to read in order to succeed
-    repository.txt  to see where the scenario is created
-*****************************************************************
-Run this script as
-       $0 --verify ${SCENARIO_GIT_REPO}
-when you think you are done
-*****************************************************************
+=================================================================
+Your scenario GIT repository is in ${SCENARIO_GIT_REPO}
+=================================================================
 EOF
-echo "> description.txt"
 cat description.txt
-echo "*****************************************************************"
-echo "> help.txt"
+cat <<EOF
+=================================================================
+Recommended reading in Pro Git            http://git-scm.com/book
+EOF
 cat help.txt
-echo "*****************************************************************"
+cat <<EOF
+=================================================================
+Run this script as
+       bash $0 --verify ${SCENARIO_GIT_REPO}
+when you think you are done
+=================================================================
+You can always read 
+    description.txt To know what you need to do
+    help.txt        To get Pointers on what to read
+    repository.txt  To see where the scenario GIT repository is
+=================================================================
+EOF
 }
 
 setup_scenario() {
@@ -47,14 +52,8 @@ setup_scenario() {
 
 generate_description_file() {
     cat > description.txt <<EOF
-Change the commit message of the last commit.
-This is called amending the commit.
-The correct commit message should have been
-
-     Correct commit message.
-
-You can find the repository location in the file named 
-    repository.txt
+Change the commit message of the last commit (amend the commit).
+The correct message is 'Correct commit message.'
 EOF
 }
 
