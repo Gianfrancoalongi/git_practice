@@ -34,7 +34,9 @@ echo "*****************************************************************"
 
 generate_description_file() {
     cat > description.txt <<EOF
-You have to set up an empty git repository.
+Set up an empty git repository somewhere on your system.
+This could be anywhere, in a new directory in /tmp or in 
+your current working directory.
 EOF
 }
 
