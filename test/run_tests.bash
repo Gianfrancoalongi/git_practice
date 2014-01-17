@@ -103,8 +103,8 @@ solution_for_scenario_14() {
 }
 
 solution_for_scenario_15() {
-    git add main_repo ${REMOTE}
-    git push main_repo my_experimental_branch &> /dev/null
+    git commit -m 'fixed the spelling errors' &> /dev/null
+    git push the_remote_repository fixed_spelling &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {
