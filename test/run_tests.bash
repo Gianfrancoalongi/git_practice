@@ -103,7 +103,7 @@ solution_for_scenario_14() {
 }
 
 solution_for_scenario_15() {
-    git commit -m 'fixed the spelling errors' &> /dev/null
+    git commit -a -m 'fixed the spelling errors' &> /dev/null
     git push the_remote_repository fixed_spelling &> /dev/null
 }
 

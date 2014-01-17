@@ -60,7 +60,6 @@ EOF
 
 check_that_spelling_corrections_where_pushed_to_remote() {
     REMOTE=$(cat remote_repository.txt)
-    echo ${REMOTE}
     pushd ${1} &> /dev/null
     FACIT_FILE_MESSAGE=$(mktemp)
     cat message.txt  > ${FACIT_FILE_MESSAGE}
