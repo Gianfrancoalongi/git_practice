@@ -38,6 +38,9 @@ setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
     pushd ${SCENARIO_GIT_REPO} &> /dev/null
     git init . &> /dev/null
+    touch b.txt 
+    git add b.txt
+    git commit -m 'Base commit' &> /dev/null
     popd &> /dev/null
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
@@ -48,7 +51,7 @@ Create a branch called
 
      my_branch
 
-and switch to it.
+Switch to the new branch.
 The output of the command
     
      git branch
