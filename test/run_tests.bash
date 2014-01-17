@@ -7,7 +7,7 @@ main() {
 
    scenario_1_tests
 
-   for((x=2;x<=15;x++))
+   for((x=2;x<=16;x++))
    do
        if [[ ${x} -lt 10 ]]
        then
@@ -105,6 +105,10 @@ solution_for_scenario_14() {
 solution_for_scenario_15() {
     git commit -a -m 'fixed the spelling errors' &> /dev/null
     git push the_remote_repository fixed_spelling &> /dev/null
+}
+
+solution_for_scenario_16() {
+    :
 }
 
 test_that_verification_fails_for_scenario() {

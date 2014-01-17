@@ -72,6 +72,7 @@ EOF
 
 check_that_cherry_was_picked() {
     pushd ${1} &> /dev/null
+    RES="No - you are not done"
     # FACIT_FILE_MESSAGE=$(mktemp)
     # cat message.txt  > ${FACIT_FILE_MESSAGE}
     # FACIT_FILE_BRANCH=$(mktemp)
