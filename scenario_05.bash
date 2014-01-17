@@ -14,24 +14,28 @@ main() {
 
 show_scenario_text() {
     cat <<EOF
-*****************************************************************
-Scenario set up.
-You can always read 
-    description.txt to know what you need to do
-    help.txt to get pointers on what to read in order to succeed
-    repository.txt  to see where the scenario is created
-*****************************************************************
-Run this script as
-       $0 --verify ${SCENARIO_GIT_REPO}
-when you think you are done
-*****************************************************************
+=================================================================
+Your scenario GIT repository is in ${SCENARIO_GIT_REPO}
+=================================================================
 EOF
-echo "> description.txt"
 cat description.txt
-echo "*****************************************************************"
-echo "> help.txt"
+cat <<EOF
+=================================================================
+Recommended reading in Pro Git            http://git-scm.com/book
+EOF
 cat help.txt
-echo "*****************************************************************"
+cat <<EOF
+=================================================================
+Run this script as
+       bash $0 --verify ${SCENARIO_GIT_REPO}
+when you think you are done
+=================================================================
+You can always read 
+    description.txt To know what you need to do
+    help.txt        To get Pointers on what to read
+    repository.txt  To see where the scenario GIT repository is
+=================================================================
+EOF
 }
 
 setup_scenario() {
@@ -49,16 +53,10 @@ setup_scenario() {
 
 generate_description_file() {
     cat > description.txt <<EOF
-Change so that b.txt is not staged for commit.
-Only a.txt and c.txt should be staged for commit, so that
-the command
-
-    git commit -m 'Second commit'
-
-should only include the changes in a.txt and c.txt
-
-You can find the repository location in the file named 
-    repository.txt
+Change so that b.txt is no longer staged for commit, but still
+modified. Only a.txt and c.txt should be staged for commit.
+You can see which files are staged for commit by the command
+git status
 EOF
 }
 
