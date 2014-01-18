@@ -5,7 +5,7 @@ main() {
     then
 	check_that_b_is_not_staged_for_commit $2
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
 	bash user_text.bash $0
@@ -14,14 +14,14 @@ main() {
 
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
-    pushd ${SCENARIO_GIT_REPO} &> /dev/null
-    git init . &> /dev/null
-    touch {a,b,c}.txt &> /dev/null
-    git add {a,b,c}.txt &> /dev/null
-    git commit -m 'First commit' &> /dev/null
+    pushd ${SCENARIO_GIT_REPO}
+    git init .
+    touch {a,b,c}.txt
+    git add {a,b,c}.txt
+    git commit -m 'First commit'
     for i in {a,b,c}.txt; do echo 'change' >> ${i}; done     
-    git add {a,b,c}.txt &> /dev/null
-    popd &> /dev/null
+    git add {a,b,c}.txt 
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
 
