@@ -5,7 +5,7 @@ main() {
     then
 	check_that_we_have_fetched_and_merged_origin ${2}
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
 	bash user_text.bash $0
@@ -15,21 +15,21 @@ main() {
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
     SCENARIO_REMOTE_GIT_REPO=$(mktemp -d)
-    pushd ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
-    git init . &> /dev/null
+    pushd ${SCENARIO_REMOTE_GIT_REPO}
+    git init .
     touch {a,b,c,d}.txt 
-    git add {a,b,c,d}.txt &> /dev/null
-    git commit -m 'initial commit' &> /dev/null
-    echo 'A is for algorithms' > a.txt && git commit -a -m 'Finished A' &> /dev/null
-    echo 'B is for bits' > b.txt && git commit -a -m 'Finished B' &> /dev/null
-    popd &> /dev/null
-    pushd /tmp &> /dev/null
-    git clone ${SCENARIO_REMOTE_GIT_REPO} ${SCENARIO_GIT_REPO} &> /dev/null
-    popd &> /dev/null
-    pushd ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
-    echo 'C is for ciphers' > c.txt && git commit -a -m 'Finished C' &> /dev/null
-    echo 'D is for decryption' > d.txt && git commit -a -m 'Finished D' &> /dev/null
-    popd &> /dev/null
+    git add {a,b,c,d}.txt
+    git commit -m 'initial commit'
+    echo 'A is for algorithms' > a.txt && git commit -a -m 'Finished A'
+    echo 'B is for bits' > b.txt && git commit -a -m 'Finished B'
+    popd
+    pushd /tmp
+    git clone ${SCENARIO_REMOTE_GIT_REPO} ${SCENARIO_GIT_REPO}
+    popd
+    pushd ${SCENARIO_REMOTE_GIT_REPO}
+    echo 'C is for ciphers' > c.txt && git commit -a -m 'Finished C'
+    echo 'D is for decryption' > d.txt && git commit -a -m 'Finished D'
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
 
