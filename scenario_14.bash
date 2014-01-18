@@ -5,7 +5,7 @@ main() {
     then
 	check_that_name_was_properly_changed_for_the_remote ${2}
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
         bash user_text.bash $0
@@ -15,24 +15,24 @@ main() {
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
     SCENARIO_REMOTE_GIT_REPO=$(mktemp -d)
-    pushd ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
-    git init . &> /dev/null
+    pushd ${SCENARIO_REMOTE_GIT_REPO}
+    git init .
     touch {a,b,c,d}.txt 
-    git add {a,b,c,d}.txt &> /dev/null
-    git commit -m 'initial commit' &> /dev/null
-    echo 'A is for algorithms' > a.txt && git commit -a -m 'Finished A' &> /dev/null
-    echo 'B is for bits' > b.txt && git commit -a -m 'Finished B' &> /dev/null
-    popd &> /dev/null
-    pushd ${SCENARIO_GIT_REPO} &> /dev/null
-    git init . &> /dev/null
+    git add {a,b,c,d}.txt
+    git commit -m 'initial commit'
+    echo 'A is for algorithms' > a.txt && git commit -a -m 'Finished A'
+    echo 'B is for bits' > b.txt && git commit -a -m 'Finished B'
+    popd
+    pushd ${SCENARIO_GIT_REPO}
+    git init .
     touch {c,d}.txt
-    git add {c,d}.txt &> /dev/null
-    git commit -m 'initial commit' &> /dev/null
-    echo 'C is for ciphers' > c.txt && git commit -a -m 'Finished C' &> /dev/null
-    echo 'D is for decryption' > d.txt && git commit -a -m 'Finished D' &> /dev/null
-    git remote add the_remote_repository ${SCENARIO_REMOTE_GIT_REPO} &> /dev/null
-    git fetch the_remote_repository &> /dev/null
-    popd &> /dev/null
+    git add {c,d}.txt
+    git commit -m 'initial commit'
+    echo 'C is for ciphers' > c.txt && git commit -a -m 'Finished C'
+    echo 'D is for decryption' > d.txt && git commit -a -m 'Finished D'
+    git remote add the_remote_repository ${SCENARIO_REMOTE_GIT_REPO}
+    git fetch the_remote_repository
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
     echo ${SCENARIO_REMOTE_GIT_REPO} > remote_repository.txt
 }
