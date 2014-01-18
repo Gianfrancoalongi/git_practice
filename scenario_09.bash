@@ -5,7 +5,7 @@ main() {
     then
 	check_that_branch_was_merged_and_deleted ${2}
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
 	bash user_text.bash $0
@@ -14,16 +14,16 @@ main() {
 
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
-    pushd ${SCENARIO_GIT_REPO} &> /dev/null
-    git init . &> /dev/null
+    pushd ${SCENARIO_GIT_REPO}
+    git init .
     touch a.txt
     git add a.txt
-    git commit -m 'Initial commit' &>  /dev/null
-    git checkout -b ahead_of_master &> /dev/null
-    echo 'line one' >> a.txt && git commit -a -m 'One step ahead' &> /dev/null
-    echo 'line two' >> a.txt && git commit -a -m 'Two steps ahead'  &> /dev/null
-    echo 'line three' >> a.txt && git commit -a -m 'Three steps ahead'  &> /dev/null
-    popd &> /dev/null
+    git commit -m 'Initial commit'
+    git checkout -b ahead_of_master
+    echo 'line one' >> a.txt && git commit -a -m 'One step ahead'
+    echo 'line two' >> a.txt && git commit -a -m 'Two steps ahead'
+    echo 'line three' >> a.txt && git commit -a -m 'Three steps ahead'
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
 
