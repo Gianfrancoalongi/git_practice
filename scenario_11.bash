@@ -5,7 +5,7 @@ main() {
     then
 	check_that_branch_rebased_on_top_of_latest_changes ${2}
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
 	bash user_text.bash $0
@@ -14,18 +14,18 @@ main() {
 
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
-    pushd ${SCENARIO_GIT_REPO} &> /dev/null
-    git init . &> /dev/null
+    pushd ${SCENARIO_GIT_REPO}
+    git init .
     touch {a,b}.txt
-    git add {a,b}.txt &> /dev/null
-    git commit -m 'Initial commit' &> /dev/null
-    echo 'line one' >> a.txt && git commit -a -m 'A is modified' &> /dev/null
-    git checkout -b working_branch &> /dev/null
-    echo 'line one' >> b.txt && git commit -a -m 'B is modified' &> /dev/null
-    echo 'line two' >> b.txt && git commit -a -m 'B is modified again' &> /dev/null
-    git checkout master &> /dev/null
-    echo 'line two' >> a.txt && git commit -a -m 'A is modified again' &> /dev/null
-    popd &> /dev/null
+    git add {a,b}.txt
+    git commit -m 'Initial commit'
+    echo 'line one' >> a.txt && git commit -a -m 'A is modified'
+    git checkout -b working_branch
+    echo 'line one' >> b.txt && git commit -a -m 'B is modified'
+    echo 'line two' >> b.txt && git commit -a -m 'B is modified again'
+    git checkout master
+    echo 'line two' >> a.txt && git commit -a -m 'A is modified again'
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
 
