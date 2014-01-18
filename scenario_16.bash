@@ -51,7 +51,7 @@ the door. The old man opened the door and asked who came to visit
 him? 
 EOF
     git commit -a -m 'the long face'
-    popd &> /dev/null
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
 
