@@ -5,7 +5,7 @@ main() {
     then
 	check_that_branch_was_created_and_switched_to ${2}
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
 	bash user_text.bash $0
@@ -14,12 +14,12 @@ main() {
 
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
-    pushd ${SCENARIO_GIT_REPO} &> /dev/null
-    git init . &> /dev/null
+    pushd ${SCENARIO_GIT_REPO}
+    git init .
     touch b.txt 
     git add b.txt
-    git commit -m 'Base commit' &> /dev/null
-    popd &> /dev/null
+    git commit -m 'Base commit'
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
 
