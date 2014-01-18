@@ -5,7 +5,7 @@ main() {
     then
 	check_if_files_are_properly_ignored_at $2
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
         bash user_text.bash $0
@@ -14,10 +14,10 @@ main() {
 
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
-    pushd ${SCENARIO_GIT_REPO} &> /dev/null
+    pushd ${SCENARIO_GIT_REPO}
     for i in {1..100}; do touch ${i}.txt; done
-    git init . &> /dev/null
-    popd &> /dev/null
+    git init .
+    popd
     echo ${SCENARIO_GIT_REPO} > repository.txt
 }
 
