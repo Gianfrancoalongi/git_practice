@@ -16,7 +16,7 @@ setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
     SCENARIO_REMOTE_GIT_REPO=$(mktemp -d)
     pushd ${SCENARIO_REMOTE_GIT_REPO}
-    git init . &> /dev/null
+    git init .
     cat > message.txt <<EOF
 this is a piece of engrish text with
 some spellllling errors inculded here and
@@ -24,7 +24,7 @@ theer.
 EOF
     git add message.txt
     git commit -m 'first version of message'
-    popd &> /dev/null
+    popd
     pushd ${SCENARIO_GIT_REPO}
     git init .
     git remote add the_remote_repository ${SCENARIO_REMOTE_GIT_REPO}
