@@ -15,7 +15,8 @@ main() {
 setup_scenario() {
     SCENARIO_GIT_REPO=$(mktemp -d)
     pushd ${SCENARIO_GIT_REPO}
-    git init . &> /dev/null
+    git init .
+    git config --local merge.tool kdiff3 
     cat > story.txt <<EOF
 Once upon a time
   there was an old man living at the bottom of a big big mountain.
@@ -59,6 +60,7 @@ generate_description_file() {
 Cherry pick the commit which removes duplicate bigs.
 This commit is on the experimental branch with the commit
 message 'removing duplicate bigs - make story too wordy'.
+You might have to do a manual merge conflict resolution.
 EOF
 }
 
@@ -73,32 +75,63 @@ EOF
 check_that_cherry_was_picked() {
     pushd ${1} &> /dev/null
     RES="No - you are not done"
-    # FACIT_FILE_MESSAGE=$(mktemp)
-    # cat message.txt  > ${FACIT_FILE_MESSAGE}
-    # FACIT_FILE_BRANCH=$(mktemp)
-    # git branch  > ${FACIT_FILE_BRANCH}
-    # popd &> /dev/null
-    # pushd ${REMOTE} &> /dev/null
-    # git checkout fixed_spelling &> /dev/null
-    # ACTUAL_FILE_MESSAGE=$(mktemp)
-    # cat message.txt > ${ACTUAL_FILE_MESSAGE}
-    # ACTUAL_FILE_BRANCH=$(mktemp)    
-    # git branch -a &> ${ACTUAL_FILE_BRANCH}
-    # diff -E -b ${FACIT_FILE_MESSAGE} ${ACTUAL_FILE_MESSAGE} &> /dev/null
-    # R1=$? 
-    # diff -E -b ${FACIT_FILE_BRANCH} ${ACTUAL_FILE_BRANCH} &> /dev/null
-    # R2=$?
+    FACIT_BRANCH=$(mktemp)
+cat > ${FACIT_BRANCH} <<EOF
+  experimental
+* master
+EOF
+    FACIT_LOG=$(mktemp)
+    git log --format="%s" > ${FACIT_LOG}
+cat > ${FACIT_LOG} <<EOF
+removing duplicate bigs - makes story too wordy
+the long face
+the drop
+first draft of story
+EOF
+    FACIT_STORY=$(mktemp)
+cat > ${FACIT_STORY} <<EOF    
+Once upon a time
+  there was an old man living at the bottom of a big mountain.
+At the top of the big mountain lived another old man.
+Both old men had been living in their huts for over 30 years and
+frequently went out to collect wood and herbs.
+One day the man at the top of the big mountain dropped a piece
+of firewood as he was walking along the edge. And the firewood
+dropped all the way, from the top of the big mountain, down
+to the bottom of the big mountain.
+And so, a horse came walking down the mountain, and it came to be
+that the firewood falling from the top, bouncing on all the rocks
+and stones, on all the trees, and so finally hitting the door of
+the old man at the bottom came to rest just as the horse passed
+the door. The old man opened the door and asked who came to visit
+him?
+EOF
+    ACTUAL_BRANCH=$(mktemp)
+    git branch &> ${ACTUAL_BRANCH}
+    ACTUAL_LOG=$(mktemp)
+    git log --format='%s' &> ${ACTUAL_LOG}
+    ACTUAL_STORY=$(mktemp)
+    cat story.txt &> ${ACTUAL_STORY}
+    
+    diff -E -b ${FACIT_BRANCH} ${ACTUAL_BRANCH} &> /dev/null
+    R1=$? 
+    diff -E -b ${FACIT_LOG} ${ACTUAL_LOG} &> /dev/null
+    R2=$?
+    diff -E -b -B ${FACIT_STORY} ${ACTUAL_STORY} &> /dev/null
+    R3=$?
 
-    # if [[ ${R1} == ${R2} && ${R2} == 0 ]]
-    # then
-    # 	RES="Verified - you are done"
-    # else
-    # 	RES="No - you are not done"
-    # fi
-    # rm -f ${FACIT_FILE_BRANCH} \
-    # 	  ${ACTUAL_FILE_BRANCH} \
-    # 	  ${FACIT_FILE_MESSAGE} \
-    # 	  ${ACTUAL_FILE_MESSAGE} &> /dev/null
+    if [[ ${R1} == ${R2} && ${R2} == ${R3} && ${R3} == 0 ]]
+    then
+    	RES="Verified - you are done"
+    else
+    	RES="No - you are not done"
+    fi
+    rm -f ${FACIT_BRANCH} \
+    	  ${ACTUAL_BRANCH} \
+    	  ${FACIT_LOG} \
+    	  ${ACTUAL_LOG} \
+    	  ${FACIT_STORY} \
+    	  ${ACTUAL_STORY} &> /dev/null
     popd &> /dev/null
     echo ${RES}
 }
