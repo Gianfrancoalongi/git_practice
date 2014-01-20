@@ -7,7 +7,7 @@ main() {
 
    scenario_1_tests
 
-   for((x=2;x<=16;x++))
+   for((x=2;x<=17;x++))
    do
        if [[ ${x} -lt 10 ]]
        then
@@ -131,6 +131,12 @@ him?
 EOF
     git add story.txt  &> /dev/null
     git commit -m 'removing duplicate bigs - makes story too wordy' &> /dev/null
+}
+
+solution_for_scenario_17() {
+    git stash &> /dev/null
+    git checkout master &> /dev/null
+    git stash apply stash@{1} &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {
