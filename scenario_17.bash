@@ -45,7 +45,58 @@ EOF
 }
 
 check_that_changes_where_stashed_and_branch_changed() {
-    RES="No - you are not done"
+    pushd ${1} &> /dev/null
+    FACIT_FILE=$(mktemp)
+    cat > ${FACIT_FILE} <<EOF    
+3rd change on b
+EOF
+    FACIT_BRANCH=$(mktemp)
+    cat > ${FACIT_BRANCH} <<EOF
+* master
+  test
+EOF
+    FACIT_STASH=$(mktemp)
+    cat > ${FACIT_STASH} <<EOF
+stash@{0}: test:
+stash@{1}: master:
+stash@{2}: master:
+stash@{3}: master:
+EOF
+    FACIT_ZERO=$(mktemp)
+    cat > ${FACIT_ZERO} <<EOF
+ a.txt |    1 +
+ 1 file changed, 1 insertion(+)
+EOF
+    ACTUAL_FILE=$(mktemp)
+    cat b.txt > ${ACTUAL_FILE}
+    ACTUAL_BRANCH=$(mktemp)
+    git branch > ${ACTUAL_BRANCH}
+    ACTUAL_STASH=$(mktemp)
+    git stash list | cut -d ' ' -f 1,4 > ${ACTUAL_STASH}
+    ACTUAL_ZERO=$(mktemp)
+    git stash show stash@{0} > ${ACTUAL_ZERO}
+
+    diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
+    R1=$? 
+    diff -E -b ${FACIT_BRANCH} ${ACTUAL_BRANCH} &> /dev/null
+    R2=$? 
+    diff -E -b ${FACIT_STASH} ${ACTUAL_STASH} &> /dev/null
+    R3=$? 
+    diff -E -b ${FACIT_ZERO} ${ACTUAL_ZERO} &> /dev/null
+    R4=$?
+    
+    if [[ ${R1} == ${R2} && ${R2} == ${R3} && ${R3} == ${R4} && ${R4} == 0 ]]
+    then
+    	RES="Verified - you are done"
+    else
+	RES="No - you are not done"
+    fi
+
+    rm ${FACIT_FILE} ${ACTUAL_FILE} \
+       ${FACIT_BRANCH} ${ACTUAL_BRANCH} \
+       ${FACIT_STASH} ${ACTUAL_STASH} \
+       ${FACIT_ZERO} ${ACTUAL_ZERO} &> /dev/null
+    popd &> /dev/null
     echo ${RES}
 }
 
