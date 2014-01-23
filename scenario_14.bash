@@ -63,16 +63,13 @@ check_that_name_was_properly_changed_for_the_remote() {
   remotes/other_repository/master
 EOF
     cat > ${FACIT_FILE_LOG} <<EOF
-* Finished D
-* Finished C
-* initial commit
 * Finished B
 * Finished A
 * initial commit
 EOF
     git branch -a &> ${ACTUAL_FILE_BRANCH}
-    git log master --graph --format="%s" &>> ${ACTUAL_FILE_LOG}
-    git log other_repository/master --graph --format="%s" &>> ${ACTUAL_FILE_LOG}
+    git log master --graph --format="%s" &>  ${ACTUAL_FILE_LOG}
+    git log other_repository/master --graph --format="%s" &> ${ACTUAL_FILE_LOG}
 
     diff -E -b ${FACIT_FILE_BRANCH} ${ACTUAL_FILE_BRANCH} &> /dev/null
     R1=$? 
