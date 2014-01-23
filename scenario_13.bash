@@ -64,21 +64,20 @@ check_that_remote_was_properly_added_and_fetched() {
   remotes/the_remote_repository/master
 EOF
     cat > ${FACIT_FILE_LOG} <<EOF
-* Finished D
-* Finished C
-* initial commit
 * Finished B
 * Finished A
 * initial commit
 EOF
     git branch -a &> ${ACTUAL_FILE_BRANCH}
-    git log master --graph --format="%s" &>> ${ACTUAL_FILE_LOG}
-    git log the_remote_repository/master --graph --format="%s" &>> ${ACTUAL_FILE_LOG}
+    git log master --graph --format='%s' &> ${ACTUAL_FILE_LOG}
+    git log the_remote_repository/master --graph --format='%s' &> ${ACTUAL_FILE_LOG}
 
     diff -E -b ${FACIT_FILE_BRANCH} ${ACTUAL_FILE_BRANCH} &> /dev/null
     R1=$? 
     diff -E -b ${FACIT_FILE_LOG} ${ACTUAL_FILE_LOG} &> /dev/null
     R2=$?
+
+    
 
     if [[ ${R1} == ${R2} && ${R2} == 0 ]]
     then
