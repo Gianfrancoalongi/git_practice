@@ -108,29 +108,13 @@ solution_for_scenario_15() {
 }
 
 solution_for_scenario_16() {
-    git checkout experimental &> /dev/null
-    TO_CHERRY_PICK=$(git log --oneline --grep 'removing duplicate bigs - makes story too wordy' | cut -d ' ' -f 1)
+    git checkout more_cardio &> /dev/null
+    MORE_RUNNING=$(git log --oneline --grep 'more running' | cut -d ' ' -f 1)
+    git checkout more_strength &> /dev/null
+    MORE_STRENGTH=$(git log --oneline --grep 'more strength' | cut -d ' ' -f 1)    
     git checkout master &> /dev/null
-    git cherry-pick ${TO_CHERRY_PICK} &> /dev/null
-    cat > story.txt <<EOF
-Once upon a time
-  there was an old man living at the bottom of a big mountain.
-At the top of the big mountain lived another old man.
-Both old men had been living in their huts for over 30 years and
-frequently went out to collect wood and herbs.
-One day the man at the top of the big mountain dropped a piece
-of firewood as he was walking along the edge. And the firewood
-dropped all the way, from the top of the big mountain, down
-to the bottom of the big mountain.
-And so, a horse came walking down the mountain, and it came to be
-that the firewood falling from the top, bouncing on all the rocks
-and stones, on all the trees, and so finally hitting the door of
-the old man at the bottom came to rest just as the horse passed
-the door. The old man opened the door and asked who came to visit
-him?
-EOF
-    git add story.txt  &> /dev/null
-    git commit -m 'removing duplicate bigs - makes story too wordy' &> /dev/null
+    git cherry-pick ${MORE_RUNNING} &> /dev/null
+    git cherry-pick ${MORE_STRENGTH} &> /dev/null
 }
 
 solution_for_scenario_17() {

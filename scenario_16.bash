@@ -5,7 +5,7 @@ main() {
     then
 	check_that_cherry_was_picked ${2}
     else
-	setup_scenario
+	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
         bash user_text.bash $0
@@ -96,32 +96,48 @@ check_that_cherry_was_picked() {
     RES="No - you are not done"
     FACIT_BRANCH=$(mktemp)
 cat > ${FACIT_BRANCH} <<EOF
-  experimental
 * master
+  more_cardio
+  more_strength
 EOF
     FACIT_LOG=$(mktemp)
-    git log --format="%s" > ${FACIT_LOG}
 cat > ${FACIT_LOG} <<EOF
-removing duplicate bigs - makes story too wordy
-the long face
-the drop
-first draft of story
+initial instructions
+more running
+more strength
 EOF
-    FACIT_STORY=$(mktemp)
-cat > ${FACIT_STORY} <<EOF    
+    FACIT_TRAINING=$(mktemp)
+cat > ${FACIT_TRAINING} <<EOF
+1.  run 2 kilometers
+2.
+3.  run 2 kilometers
+4.
+5.  do 100 push ups
+6.
+7.  run 2 kilometers
+8.
+9.  do 200 sit ups
+10.
+11. run 2 kilometers
+12.
+13. do 100 push ups
+14.
+15. run 2 kilometers
+16.
+17. do 200 sit ups
 EOF
     ACTUAL_BRANCH=$(mktemp)
     git branch &> ${ACTUAL_BRANCH}
     ACTUAL_LOG=$(mktemp)
-    git log --format='%s' &> ${ACTUAL_LOG}
-    ACTUAL_STORY=$(mktemp)
-    cat training.txt &> ${ACTUAL_STORY}
+    git log --format='%s' | sort &> ${ACTUAL_LOG}
+    ACTUAL_TRAINING=$(mktemp)
+    cat training.txt &> ${ACTUAL_TRAINING}
     
     diff -E -b ${FACIT_BRANCH} ${ACTUAL_BRANCH} &> /dev/null
     R1=$? 
     diff -E -b ${FACIT_LOG} ${ACTUAL_LOG} &> /dev/null
     R2=$?
-    diff -E -b -B ${FACIT_STORY} ${ACTUAL_STORY} &> /dev/null
+    diff -E -b -B ${FACIT_TRAINING} ${ACTUAL_TRAINING} &> /dev/null
     R3=$?
 
     if [[ ${R1} == ${R2} && ${R2} == ${R3} && ${R3} == 0 ]]
@@ -134,8 +150,8 @@ EOF
     	  ${ACTUAL_BRANCH} \
     	  ${FACIT_LOG} \
     	  ${ACTUAL_LOG} \
-    	  ${FACIT_STORY} \
-    	  ${ACTUAL_STORY} &> /dev/null
+    	  ${FACIT_TRAINING} \
+    	  ${ACTUAL_TRAINING} &> /dev/null
     popd &> /dev/null
     echo ${RES}
 }
