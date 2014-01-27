@@ -123,8 +123,9 @@ solution_for_scenario_17() {
     git stash apply stash@{1} &> /dev/null
 }
 
-solution_for_scenario_18() {
-    :
+solution_for_scenario_18() {    
+    GIT_SEQUENCE_EDITOR="sed -i '/^pick.*positive on 5.*/d'" \
+    git rebase -i HEAD~3 &> /dev/null
 }
 
 test_that_verification_fails_for_scenario() {
