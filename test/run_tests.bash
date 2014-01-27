@@ -7,7 +7,7 @@ main() {
 
    scenario_1_tests
 
-   for((x=2;x<=17;x++))
+   for((x=2;x<=18;x++))
    do
        if [[ ${x} -lt 10 ]]
        then
@@ -121,6 +121,10 @@ solution_for_scenario_17() {
     git stash &> /dev/null
     git checkout master &> /dev/null
     git stash apply stash@{1} &> /dev/null
+}
+
+solution_for_scenario_18() {
+    :
 }
 
 test_that_verification_fails_for_scenario() {
