@@ -7,7 +7,7 @@ main() {
 
    scenario_1_tests
 
-   for((x=2;x<=18;x++))
+   for((x=2;x<=19;x++))
    do
        if [[ ${x} -lt 10 ]]
        then
@@ -126,6 +126,19 @@ solution_for_scenario_17() {
 solution_for_scenario_18() {    
     GIT_SEQUENCE_EDITOR="sed -i '/^pick.*positive on 5.*/d'" \
     git rebase -i HEAD~3 &> /dev/null
+}
+
+solution_for_scenario_19() {
+    FIRST=$(git log --format='%h' | tail -n 1)
+    LAST=$(git log --format='%h' | head -n 1)
+    git bisect start ${LAST} ${FIRST}
+    BAD=$(git bisect run /tmp/test.bash | grep 'is the first bad' | cut -d ' ' -f 1)
+    git checkout master
+    GIT_SEQUENCE_EDITOR="sed -i '/pick .* fourth part/edit ${BAD} fourth part/'" \
+	git rebase -i HEAD~2
+    sed -i 's/beeches/beaches/' speech.txt
+    git add speech.txt
+    git commit -m 'fourth part'
 }
 
 test_that_verification_fails_for_scenario() {
