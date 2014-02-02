@@ -13,7 +13,7 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d GITPractice_XXXXXXXX)
+    SCENARIO_GIT_REPO=$(mktemp -d GITPractice_Repo_XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     for i in {1..100}; do touch ${i}.txt; done
     git init .
