@@ -13,7 +13,7 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d)
+    SCENARIO_GIT_REPO=$(mktemp -d XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     git init .
     cat > training.txt <<EOF
@@ -40,7 +40,7 @@ EOF
 
     # more cardio and less strength
     git checkout -b more_cardio
-    TMP=$(mktemp)
+    TMP=$(mktemp XXXXXXXX)
     sed 's/^3./3.  run 2 kilometers/g' training.txt > ${TMP} && mv ${TMP} training.txt
     sed 's/^7./7.  run 2 kilometers/g' training.txt > ${TMP} && mv ${TMP} training.txt
     sed 's/^11./11. run 2 kilometers/g' training.txt > ${TMP} && mv ${TMP} training.txt
@@ -94,19 +94,19 @@ EOF
 check_that_cherry_was_picked() {
     pushd ${1} &> /dev/null
     RES="No - you are not done"
-    FACIT_BRANCH=$(mktemp)
+    FACIT_BRANCH=$(mktemp XXXXXXXX)
 cat > ${FACIT_BRANCH} <<EOF
 * master
   more_cardio
   more_strength
 EOF
-    FACIT_LOG=$(mktemp)
+    FACIT_LOG=$(mktemp XXXXXXXX)
 cat > ${FACIT_LOG} <<EOF
 initial instructions
 more running
 more strength
 EOF
-    FACIT_TRAINING=$(mktemp)
+    FACIT_TRAINING=$(mktemp XXXXXXXX)
 cat > ${FACIT_TRAINING} <<EOF
 1.  run 2 kilometers
 2.
@@ -126,11 +126,11 @@ cat > ${FACIT_TRAINING} <<EOF
 16.
 17. do 200 sit ups
 EOF
-    ACTUAL_BRANCH=$(mktemp)
+    ACTUAL_BRANCH=$(mktemp XXXXXXXX)
     git branch &> ${ACTUAL_BRANCH}
-    ACTUAL_LOG=$(mktemp)
+    ACTUAL_LOG=$(mktemp XXXXXXXX)
     git log --format='%s' | sort &> ${ACTUAL_LOG}
-    ACTUAL_TRAINING=$(mktemp)
+    ACTUAL_TRAINING=$(mktemp XXXXXXXX)
     cat training.txt &> ${ACTUAL_TRAINING}
     
     diff -E -b ${FACIT_BRANCH} ${ACTUAL_BRANCH} &> /dev/null

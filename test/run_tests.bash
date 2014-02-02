@@ -31,7 +31,7 @@ main() {
 }
 
 scenario_1_tests() {
-    DIR=$(mktemp -d)
+    DIR=$(mktemp -d GIT_practice_XXXXXX)
     test_that_verification_fails_for_scenario 01 ${DIR}
     git init ${DIR} &> /dev/null
     test_that_verification_passes_for_scenario 01 ${DIR}

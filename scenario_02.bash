@@ -8,12 +8,12 @@ main() {
 	setup_scenario &> /dev/null
 	generate_description_file
 	generate_help_file
-        bash user_text.bash $0
+   bash user_text.bash $0
     fi
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d)
+    SCENARIO_GIT_REPO=$(mktemp -d XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     for i in {1..100}; do touch ${i}.txt; done
     git init .
@@ -38,8 +38,8 @@ EOF
 
 check_if_files_are_properly_ignored_at() {
     pushd ${1} &> /dev/null
-    FACIT_FILE=$(mktemp)
-    ACTUAL_FILE=$(mktemp)
+    FACIT_FILE=$(mktemp XXXXXXXX)
+    ACTUAL_FILE=$(mktemp XXXXXXXX)
     cat > ${FACIT_FILE} <<EOF
 # On branch master
 #

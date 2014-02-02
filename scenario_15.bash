@@ -13,8 +13,8 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d)
-    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d)
+    SCENARIO_GIT_REPO=$(mktemp -d XXXXXXXX)
+    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d XXXXXXXX)
     pushd ${SCENARIO_REMOTE_GIT_REPO}
     git init .
     cat > message.txt <<EOF
@@ -61,16 +61,16 @@ EOF
 check_that_spelling_corrections_where_pushed_to_remote() {
     REMOTE=$(cat remote_repository.txt)
     pushd ${1} &> /dev/null
-    FACIT_FILE_MESSAGE=$(mktemp)
+    FACIT_FILE_MESSAGE=$(mktemp XXXXXXXX)
     cat message.txt  > ${FACIT_FILE_MESSAGE}
-    FACIT_FILE_BRANCH=$(mktemp)
+    FACIT_FILE_BRANCH=$(mktemp XXXXXXXX)
     git branch  > ${FACIT_FILE_BRANCH}
     popd &> /dev/null
     pushd ${REMOTE} &> /dev/null
     git checkout fixed_spelling &> /dev/null
-    ACTUAL_FILE_MESSAGE=$(mktemp)
+    ACTUAL_FILE_MESSAGE=$(mktemp XXXXXXXX)
     cat message.txt > ${ACTUAL_FILE_MESSAGE}
-    ACTUAL_FILE_BRANCH=$(mktemp)    
+    ACTUAL_FILE_BRANCH=$(mktemp XXXXXXXX)    
     git branch -a &> ${ACTUAL_FILE_BRANCH}
     diff -E -b ${FACIT_FILE_MESSAGE} ${ACTUAL_FILE_MESSAGE} &> /dev/null
     R1=$? 
