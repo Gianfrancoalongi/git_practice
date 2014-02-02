@@ -13,8 +13,8 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d GITPractice_Repo_XXXXXXXX)
-    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d GITPractice_REMOTE_REPO_XXXXXXXX)
+    SCENARIO_GIT_REPO=$(mktemp -d /tmp/GITPractice_Repo_XXXXXXXX)
+    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d /tmp/GITPractice_REMOTE_REPO_XXXXXXXX)
     pushd ${SCENARIO_REMOTE_GIT_REPO}
     git init .
     cat > message.txt <<EOF
