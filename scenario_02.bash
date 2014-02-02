@@ -3,12 +3,12 @@
 main() {
     if [[ $1 == "--verify" ]] 
     then
-	check_if_files_are_properly_ignored_at $2
+      check_if_files_are_properly_ignored_at $2
     else
-	setup_scenario &> /dev/null
-	generate_description_file
-	generate_help_file
-   bash user_text.bash $0
+      setup_scenario &> /dev/null
+      generate_description_file
+      generate_help_file
+      bash user_text.bash $0
     fi
 }
 
@@ -51,17 +51,17 @@ check_if_files_are_properly_ignored_at() {
 #       .gitignore
 nothing added to commit but untracked files present (use "git add" to track)
 EOF
-    git status &> ${ACTUAL_FILE}
-    diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &>/dev/null
-    if [[ $? == 0 ]]
-    then
-	RES="Verified - you are done"
-    else
-	RES="No - you are not done"
-    fi
-    rm ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
-    echo ${RES}
-    popd &> /dev/null
+   git status &> ${ACTUAL_FILE}
+   diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &>/dev/null
+   if [[ $? == 0 ]]
+   then
+      RES="Verified - you are done"
+   else
+      RES="No - you are not done"
+   fi
+   rm ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
+   echo ${RES}
+   popd &> /dev/null
 }
 
 main $@
