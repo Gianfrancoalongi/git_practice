@@ -9,32 +9,34 @@ main() {
 
    for((x=2;x<=19;x++))
    do
-       if [[ ${x} -lt 10 ]]
-       then
-	   NUM=0${x}
-       else
-	   NUM=${x}
-       fi
-       bash ../scenario_${NUM}.bash &> /dev/null
-       DIR=$(cat repository.txt)
-       if [[ ${x} -gt 12 ]]
-       then
-	   REMOTE=$(cat remote_repository.txt)
-       fi
-       test_that_verification_fails_for_scenario ${NUM} ${DIR}
-       pushd ${DIR} &> /dev/null
-       solution_for_scenario_${NUM} ${DIR}
-       popd &> /dev/null
-       test_that_verification_passes_for_scenario ${NUM} ${DIR}
-       rm -rf ${DIR} &> /dev/null       
+      if [[ ${x} -lt 10 ]]
+      then
+         NUM=0${x}
+      else
+         NUM=${x}
+      fi
+      SCENARIO_SCRIPT=$(get_absolute_path_to $0)/../scenario_${NUM}.bash
+      bash ${SCENARIO_SCRIPT} &> /dev/null
+      DIR=$(cat repository.txt)
+      if [[ ${x} -gt 12 ]]
+      then
+         REMOTE=$(cat remote_repository.txt)
+      fi
+      test_that_verification_fails_for_scenario ${SCENARIO_SCRIPT} ${DIR}
+      pushd ${DIR} &> /dev/null
+      solution_for_scenario_${NUM} ${DIR}
+      popd &> /dev/null
+      test_that_verification_passes_for_scenario ${SCENARIO_SCRIPT} ${DIR}
+      rm -rf ${DIR} &> /dev/null       
    done
 }
 
 scenario_1_tests() {
     DIR=$(mktemp -d GIT_practice_XXXXXX)
-    test_that_verification_fails_for_scenario 01 ${DIR}
+    SCENARIO_SCRIPT=$(get_absolute_path_to $0)/../scenario_01.bash
+    test_that_verification_fails_for_scenario ${SCENARIO_SCRIPT} ${DIR}
     git init ${DIR} &> /dev/null
-    test_that_verification_passes_for_scenario 01 ${DIR}
+    test_that_verification_passes_for_scenario ${SCENARIO_SCRIPT} ${DIR}
     rm -rf ${DIR} &> /dev/null
 }
 
@@ -135,28 +137,34 @@ solution_for_scenario_19() {
     BAD=$(git bisect run /tmp/test.bash | grep 'is the first bad' | cut -d ' ' -f 1)
     git checkout master
     GIT_SEQUENCE_EDITOR="sed -i '/pick .* fourth part/edit ${BAD} fourth part/'" \
-	git rebase -i HEAD~2
+    git rebase -i HEAD~2
     sed -i 's/beeches/beaches/' speech.txt
     git add speech.txt
     git commit -m 'fourth part'
 }
 
 test_that_verification_fails_for_scenario() {
-    if [[ $(bash ../scenario_${1}.bash --verify ${2}) == ${NOT_DONE} ]] 
+    if [[ $(bash ${1} --verify ${2}) == ${NOT_DONE} ]] 
     then
-    	echo "T${1}_neg passed"
+      echo "T$(basename ${1})_neg passed" 
     else 
-    	echo "T${1}_neg failed"
+      echo "T$(basename ${1})_neg failed"
     fi
 }
 
 test_that_verification_passes_for_scenario() {
-    if [[ $(bash ../scenario_${1}.bash --verify ${2}) == ${DONE} ]]
-    then
-	echo "T${1}_pos passed" 
-    else 
-	echo "T${1}_pos failed"
-    fi
+   if [[ $(bash ${1} --verify ${2}) == ${DONE} ]]
+   then
+      echo "T$(basename ${1})_pos passed" 
+   else 
+      echo "T$(basename ${1})_pos failed"
+   fi
+}
+
+get_absolute_path_to() {
+   pushd $(dirname $1) &> /dev/null
+   pwd -P
+   popd &> /dev/null
 }
 
 main
