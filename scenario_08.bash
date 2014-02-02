@@ -13,7 +13,7 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d XXXXXXXX)
+    SCENARIO_GIT_REPO=$(mktemp -d GITPractice_XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     git init .
     touch b.txt 
@@ -39,8 +39,8 @@ EOF
 
 check_that_branch_was_created_and_switched_to() {
     pushd ${1} &> /dev/null
-    FACIT_FILE=$(mktemp XXXXXXXX)
-    ACTUAL_FILE=$(mktemp XXXXXXXX)
+    FACIT_FILE=$(mktemp /tmp/XXXXXXXX)
+    ACTUAL_FILE=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_FILE} <<EOF
   master
 * my_branch

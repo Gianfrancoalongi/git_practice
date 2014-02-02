@@ -13,7 +13,7 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d XXXXXXXX)
+    SCENARIO_GIT_REPO=$(mktemp -d GITPractice_XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     git init .
     touch {a,b}.txt
@@ -46,34 +46,34 @@ EOF
 
 check_that_changes_where_stashed_and_branch_changed() {
     pushd ${1} &> /dev/null
-    FACIT_FILE=$(mktemp XXXXXXXX)
+    FACIT_FILE=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_FILE} <<EOF    
 3rd change on b
 EOF
-    FACIT_BRANCH=$(mktemp XXXXXXXX)
+    FACIT_BRANCH=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_BRANCH} <<EOF
 * master
   test
 EOF
-    FACIT_STASH=$(mktemp XXXXXXXX)
+    FACIT_STASH=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_STASH} <<EOF
 stash@{0}: test:
 stash@{1}: master:
 stash@{2}: master:
 stash@{3}: master:
 EOF
-    FACIT_ZERO=$(mktemp XXXXXXXX)
+    FACIT_ZERO=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_ZERO} <<EOF
  a.txt |    1 +
  1 file changed, 1 insertion(+)
 EOF
-    ACTUAL_FILE=$(mktemp XXXXXXXX)
+    ACTUAL_FILE=$(mktemp /tmp/XXXXXXXX)
     cat b.txt > ${ACTUAL_FILE}
-    ACTUAL_BRANCH=$(mktemp XXXXXXXX)
+    ACTUAL_BRANCH=$(mktemp /tmp/XXXXXXXX)
     git branch > ${ACTUAL_BRANCH}
-    ACTUAL_STASH=$(mktemp XXXXXXXX)
+    ACTUAL_STASH=$(mktemp /tmp/XXXXXXXX)
     git stash list | cut -d ' ' -f 1,4 > ${ACTUAL_STASH}
-    ACTUAL_ZERO=$(mktemp XXXXXXXX)
+    ACTUAL_ZERO=$(mktemp /tmp/XXXXXXXX)
     git stash show stash@{0} > ${ACTUAL_ZERO}
 
     diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null

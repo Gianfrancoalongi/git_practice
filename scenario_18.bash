@@ -13,7 +13,7 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d XXXXXXXX)
+    SCENARIO_GIT_REPO=$(mktemp -d GITPractice_XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     git init .
     cat > lines.txt <<EOF
@@ -29,7 +29,7 @@ setup_scenario() {
 EOF
     git add lines.txt
     git commit -m 'first commit'
-    TMP=$(mktemp XXXXXXXX)
+    TMP=$(mktemp /tmp/XXXXXXXX)
     sed 's/1.*/1. ++++++++++/g' lines.txt > ${TMP} && mv ${TMP} lines.txt
     git commit -a -m 'positive on 1'
     sed 's/3.*/3. ++++++++++/g' lines.txt > ${TMP} && mv ${TMP} lines.txt
@@ -59,7 +59,7 @@ EOF
 
 check_that_third_commit_was_removed() {
     pushd ${1} &> /dev/null
-    FACIT_FILE=$(mktemp XXXXXXXX)
+    FACIT_FILE=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_FILE} <<EOF    
 1. ++++++++++
 2. ----------
@@ -71,11 +71,11 @@ check_that_third_commit_was_removed() {
 8. ----------
 9. ++++++++++
 EOF
-    FACIT_BRANCH=$(mktemp XXXXXXXX)
+    FACIT_BRANCH=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_BRANCH} <<EOF
 * master
 EOF
-    FACIT_LOG=$(mktemp XXXXXXXX)
+    FACIT_LOG=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_LOG} <<EOF
 positive on 9
 positive on 7
@@ -83,11 +83,11 @@ positive on 3
 positive on 1
 first commit
 EOF
-    ACTUAL_FILE=$(mktemp XXXXXXXX)
+    ACTUAL_FILE=$(mktemp /tmp/XXXXXXXX)
     cat lines.txt > ${ACTUAL_FILE}
-    ACTUAL_BRANCH=$(mktemp XXXXXXXX)
+    ACTUAL_BRANCH=$(mktemp /tmp/XXXXXXXX)
     git branch > ${ACTUAL_BRANCH}
-    ACTUAL_LOG=$(mktemp XXXXXXXX)
+    ACTUAL_LOG=$(mktemp /tmp/XXXXXXXX)
     git log --format='%s' > ${ACTUAL_LOG}
 
     diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null

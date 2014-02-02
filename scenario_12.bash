@@ -13,8 +13,8 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d XXXXXXXX)
-    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d XXXXXXXX)
+    SCENARIO_GIT_REPO=$(mktemp -d GITPractice_XXXXXXXX)
+    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d GITPractice_XXXXXXXX)
     pushd ${SCENARIO_REMOTE_GIT_REPO}
     git init .
     touch {a,b,c,d}.txt 
@@ -56,10 +56,10 @@ EOF
 
 check_that_we_have_fetched_and_merged_origin() {
     pushd ${1} &> /dev/null
-    FACIT_FILE_BRANCH=$(mktemp XXXXXXXX)
-    ACTUAL_FILE_BRANCH=$(mktemp XXXXXXXX)
-    FACIT_FILE_LOG=$(mktemp XXXXXXXX)
-    ACTUAL_FILE_LOG=$(mktemp XXXXXXXX)
+    FACIT_FILE_BRANCH=$(mktemp /tmp/XXXXXXXX)
+    ACTUAL_FILE_BRANCH=$(mktemp /tmp/XXXXXXXX)
+    FACIT_FILE_LOG=$(mktemp /tmp/XXXXXXXX)
+    ACTUAL_FILE_LOG=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_FILE_BRANCH} <<EOF
   origin/HEAD -> origin/master
   origin/master
