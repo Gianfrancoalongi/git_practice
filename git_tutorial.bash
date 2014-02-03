@@ -2,6 +2,7 @@
 
 main()
 {
+   print_welcome
    select option in start resume help quit; do
       cat <<EOF
 Welcome to git-tutorial. From this menu you can start a new tutorial session,
@@ -18,8 +19,11 @@ EOF
          ;;
          help)
             print_help
+            echo "--"
+            print_welcome
          ;;
          quit)
+            echo "-- git-tutorial --"
             break;
          ;;
       esac
