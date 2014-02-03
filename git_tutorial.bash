@@ -112,8 +112,8 @@ get_current_repo ()
 
 run_tutorial()
 {
-   select option in next previous show-current-level list-progress repeat finish; do
-      echo "Select one of the following options:"
+   echo "Select one of the following options:"
+   select option in next previous show-current-level show-score list-progress repeat finish; do
       case $option in 
          next)
             nextLevel=$(get_next_scenario)
