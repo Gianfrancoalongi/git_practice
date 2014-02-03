@@ -105,6 +105,11 @@ get_scenario_from_level ()
    echo ${1} | awk '{ printf "scenario_%02d.bash\n", $1 }'
 }
 
+get_current_repo ()
+{
+   cat repository.txt
+}
+
 run_tutorial()
 {
    select option in next previous show-current-level list-progress repeat finish; do
@@ -131,13 +136,126 @@ run_tutorial()
          show-current-level)
             echo "You're currently at level $(get_current_scenario)"
          ;;
-         list-progress)
-            echo "not implemented yet."
+         show-score)
+            show_score
          ;;
+         list-progress)
+            echo "You have completed $(wc -l progress.txt) scenarios out of $(get_last_level)"
+         ;;
+      esac
+      echo "Select one of the following options:"
    done
 }
 
 run_scenario()
 {
-   echo "not implemented yet"
+   POINTS=10
+   # print some instructions
+   cat <<EOF
+Hi there, you're now executing in a separate shell process, and you'r current
+working directory is the GIT repository automatically created for the current 
+exercise. As soon as you have finished with the exercise, please type exit and
+your work will be validated by the script.
+==== ==== ==== ==== ==== ==== 
+EOF
+   # prepare the exercise repos
+   prepare_exercise_repo ${1}
+
+   # run shell for repo
+   run_shell_sandbox 
+
+   # verify the work
+   continueWithTheLoop=1
+   theCurrentRepository=$(get_current_repo)
+   while continueWithTheLoop; do
+      if [[ $(bash ${1} --verify $theCurrentRepository) == "No - you are not done" ]]; then
+         # User did not complete sucessfuly the exercise.
+         echo "Would you like to try again?"
+         select option in use-the-same-repository create-a-brand-new-repository I-want-a-break; do
+            case $option in
+               use-the-same-repository)
+                  POINTS=$(((POINTS - 1) % 10))
+                  run_shell_sandbox
+                  break;
+               ;;
+               create-a-brand-new-repository)
+                  POINTS=$(((POINTS - 3) % 10))
+                  prepare_exercise_repo ${1}
+                  run_shell_sandbox
+                  break;
+               ;;
+               I-want-a-break)
+                  echo "Darn. You lost 2 points from your global score as a penalty."
+                  SCORE=$(get_current_score)
+                  SCORE=$(($SCORE - 2))
+                  set_current_score $SCORE
+                  $continueWithTheLoop=0
+                  break
+               ;;
+            esac
+         done
+      else
+         # User did finish with the exercise
+         echo "Congrats! You've earend $POINTS points!" 
+         SCORE=$(get_current_score)
+         #TODO: add some bonus if the guy is doing really well...
+         SCORE=$(($SCORE + $POINTS))
+         set_current_score $SCORE
+         echo ${1} >> progress.txt
+         break
+      fi
+   done
 }
+
+prepare_exercise_repo()
+{
+   bash ${1}   
+}
+
+run_shell_sandbox()
+{
+   pushd $(get_current_repo) &> /dev/null
+   bash 
+   popd &> /dev/null
+}
+
+get_current_score()
+{
+   cat score.txt
+}
+
+set_current_score()
+{
+   echo ${1} > score.txt
+}
+
+show_score()
+{
+   SCORE=$(get_current_score)
+   echo "Your current score is $SCORE."
+   if [ $SCORE -gt 190 ]; then
+      echo "I'm pretty sure you want to contribute to make this tutorial better."
+   elif [ $SCORE -gt 150 ]; then
+      echo "You're a GIT pro!, congrats!"
+   elif [ $SCORE -gt 120 ]; then
+      echo "Well done! Keep working this way :-)"
+   elif [ $SCORE -gt 90 ]; then
+      echo "Nice work!"
+   elif [ $SCORE -ge 70 ]; then
+      echo "Keep working this way."
+   elif [ $SCORE -ge 50 ]; then
+      echo "Consistency is key."
+   elif [ $SCORE -ge 30 ]; then
+      echo "Good consistency, keep it going."
+   elif [ $SCORE -gt 10 ]; then
+      echo "Good progress!"
+   elif [ $SCORE -le 10 ]; then
+      echo "Nice start."
+   elif [ $SCORE -lt 0 ]; then
+      echo "Failing is a essential part of learning. Don't give up, keep practicing."
+   else
+   fi
+}
+
+## Action!
+main
