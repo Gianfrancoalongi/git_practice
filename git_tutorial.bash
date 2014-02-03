@@ -6,7 +6,7 @@ main()
    select option in start resume help quit; do
       case $option in 
          start)
-            echo "scenario_01.bash" > current_scenario.txt
+            init_tutorial
             run_tutorial
          ;;
          resume)
@@ -23,6 +23,13 @@ main()
          ;;
       esac
    done
+}
+
+init_tutorial()
+{
+   echo "scenario_01.bash" > current_scenario.txt
+   echo 0 > score.txt
+   cat /dev/null > progress.txt
 }
 
 good_bye()
