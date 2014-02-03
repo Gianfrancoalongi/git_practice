@@ -27,7 +27,7 @@ main()
 
 init_tutorial()
 {
-   echo "scenario_01.bash" > current_scenario.txt
+   echo "scenario_02.bash" > current_scenario.txt
    echo 0 > score.txt
    cat /dev/null > progress.txt
 }
@@ -58,7 +58,7 @@ EOF
 get_current_scenario()
 {
    if [ ! -e current_scenario.txt ]; then
-      echo "scenario_01.bash" > current_scenario.txt
+      init_tutorial
    fi
    cat current_scenario.txt
 }
@@ -112,15 +112,18 @@ get_current_repo ()
 
 run_tutorial()
 {
-   echo "Select one of the following options:"
-   select option in next previous show-current-level show-score list-progress repeat finish; do
+   echo -e "Running $(get_current_scenario) scenario-----\n"
+   run_scenario $(get_current_scenario)
+
+   echo "Well done. Now, what would you like to do:"
+   select option in run-next-level run-previous-level show-current-level show-score list-progress repeat finish; do
       case $option in 
-         next)
+         run-next-level)
             nextLevel=$(get_next_scenario)
             set_current_scenario $nextLevel
             run_scenario $nextLevel
          ;;
-         previous)
+         run-previous-level)
             previousLevel=$(get_previous_scenario)
             set_current_scenario $previousLevel
             run_scenario $previousLevel
@@ -167,10 +170,10 @@ EOF
    # verify the work
    continueWithTheLoop=1
    theCurrentRepository=$(get_current_repo)
-   while continueWithTheLoop; do
+   while test $continueWithTheLoop -ne 0; do
       if [[ $(bash ${1} --verify $theCurrentRepository) == "No - you are not done" ]]; then
          # User did not complete sucessfuly the exercise.
-         echo "Would you like to try again?"
+         echo "You did not complete the exercise correctly. Would you like to try again?"
          select option in use-the-same-repository create-a-brand-new-repository I-want-a-break; do
             case $option in
                use-the-same-repository)
@@ -189,7 +192,7 @@ EOF
                   SCORE=$(get_current_score)
                   SCORE=$(($SCORE - 2))
                   set_current_score $SCORE
-                  $continueWithTheLoop=0
+                  continueWithTheLoop=0
                   break
                ;;
             esac
@@ -202,6 +205,7 @@ EOF
          SCORE=$(($SCORE + $POINTS))
          set_current_score $SCORE
          echo ${1} >> progress.txt
+         continueWithTheLoop=0
          break
       fi
    done
@@ -254,6 +258,7 @@ show_score()
    elif [ $SCORE -lt 0 ]; then
       echo "Failing is a essential part of learning. Don't give up, keep practicing."
    else
+      echo "This is not unheard of."
    fi
 }
 
