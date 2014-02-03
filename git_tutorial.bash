@@ -4,11 +4,6 @@ main()
 {
    print_welcome
    select option in start resume help quit; do
-      cat <<EOF
-Welcome to git-tutorial. From this menu you can start a new tutorial session,
-resume an already started session, read and learn about this tutorial, or just
-quit and come later.
-EOF
       case $option in 
          start)
             echo "scenario_01.bash" > current_scenario.txt
@@ -41,6 +36,15 @@ print_help()
    cat <<EOF
 ===
 This tutorial, will guide you through all the defined exercises...
+EOF
+}
+
+print_welcome()
+{
+         cat <<EOF
+Welcome to git-tutorial. From this menu you can start a new tutorial session,
+resume an already started session, read and learn about this tutorial, or just
+quit and come later.
 EOF
 }
 
