@@ -13,7 +13,7 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d)
+    SCENARIO_GIT_REPO=$(mktemp -d /tmp/GITPractice_Repo_XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     git init .
     cat > speech.txt <<EOF
@@ -80,7 +80,7 @@ EOF
 check_that_problem_was_fixed() {
     pushd ${1} &> /dev/null
     git checkout master &> /dev/null
-    FACIT_FILE=$(mktemp)
+    FACIT_FILE=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_FILE} <<EOF
 Even though large tracts of Europe and many old and famous states
 have fallen or may fall into the grip of the Gestapo and all the
@@ -93,7 +93,7 @@ we shall fight on the beaches, we shall fight on the landing grounds,
 we shall fight in the fields and in the streets,
 we shall fight in the hills; We shall never surrender.
 EOF
-    FACIT_LOG=$(mktemp)
+    FACIT_LOG=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_LOG} <<EOF
 fifth part
 fourth part
@@ -101,9 +101,9 @@ third part
 second part
 first part
 EOF
-    ACTUAL_FILE=$(mktemp)
+    ACTUAL_FILE=$(mktemp /tmp/XXXXXXXX)
     cat speech.txt > ${ACTUAL_FILE}
-    ACTUAL_LOG=$(mktemp)
+    ACTUAL_LOG=$(mktemp /tmp/XXXXXXXX)
     git log --format='%s' > ${ACTUAL_LOG}
 
     diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null

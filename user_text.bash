@@ -15,7 +15,7 @@ cat help.txt
 cat <<EOF
 =================================================================
 Run this script as
-       bash $1 --verify ${SCENARIO_GIT_REPO}
+       bash $(basename $1) --verify ${SCENARIO_GIT_REPO}
 when you think you are done
 =================================================================
 You can always read 

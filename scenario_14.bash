@@ -13,8 +13,8 @@ main() {
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d)
-    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d)
+    SCENARIO_GIT_REPO=$(mktemp -d /tmp/GITPractice_Repo_XXXXXXXX)
+    SCENARIO_REMOTE_GIT_REPO=$(mktemp -d /tmp/GITPractice_REMOTE_REPO_XXXXXXXX)
     pushd ${SCENARIO_REMOTE_GIT_REPO}
     git init .
     touch {a,b,c,d}.txt 
@@ -54,10 +54,10 @@ EOF
 
 check_that_name_was_properly_changed_for_the_remote() {
     pushd ${1} &> /dev/null
-    FACIT_FILE_BRANCH=$(mktemp)
-    ACTUAL_FILE_BRANCH=$(mktemp)
-    FACIT_FILE_LOG=$(mktemp)
-    ACTUAL_FILE_LOG=$(mktemp)
+    FACIT_FILE_BRANCH=$(mktemp /tmp/XXXXXXXX)
+    ACTUAL_FILE_BRANCH=$(mktemp /tmp/XXXXXXXX)
+    FACIT_FILE_LOG=$(mktemp /tmp/XXXXXXXX)
+    ACTUAL_FILE_LOG=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_FILE_BRANCH} <<EOF
 * master
   remotes/other_repository/master

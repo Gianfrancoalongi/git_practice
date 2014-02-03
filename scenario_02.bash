@@ -3,17 +3,17 @@
 main() {
     if [[ $1 == "--verify" ]] 
     then
-	check_if_files_are_properly_ignored_at $2
+      check_if_files_are_properly_ignored_at $2
     else
-	setup_scenario &> /dev/null
-	generate_description_file
-	generate_help_file
-        bash user_text.bash $0
+      setup_scenario &> /dev/null
+      generate_description_file
+      generate_help_file
+      bash user_text.bash $0
     fi
 }
 
 setup_scenario() {
-    SCENARIO_GIT_REPO=$(mktemp -d)
+    SCENARIO_GIT_REPO=$(mktemp -d /tmp/GITPractice_Repo_XXXXXXXX)
     pushd ${SCENARIO_GIT_REPO}
     for i in {1..100}; do touch ${i}.txt; done
     git init .
@@ -38,8 +38,8 @@ EOF
 
 check_if_files_are_properly_ignored_at() {
     pushd ${1} &> /dev/null
-    FACIT_FILE=$(mktemp)
-    ACTUAL_FILE=$(mktemp)
+    FACIT_FILE=$(mktemp /tmp/XXXXXXXX)
+    ACTUAL_FILE=$(mktemp /tmp/XXXXXXXX)
     cat > ${FACIT_FILE} <<EOF
 # On branch master
 #
@@ -51,17 +51,17 @@ check_if_files_are_properly_ignored_at() {
 #       .gitignore
 nothing added to commit but untracked files present (use "git add" to track)
 EOF
-    git status &> ${ACTUAL_FILE}
-    diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &>/dev/null
-    if [[ $? == 0 ]]
-    then
-	RES="Verified - you are done"
-    else
-	RES="No - you are not done"
-    fi
-    rm ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
-    echo ${RES}
-    popd &> /dev/null
+   git status &> ${ACTUAL_FILE}
+   diff -E -b ${FACIT_FILE} ${ACTUAL_FILE} &>/dev/null
+   if [[ $? == 0 ]]
+   then
+      RES="Verified - you are done"
+   else
+      RES="No - you are not done"
+   fi
+   rm ${FACIT_FILE} ${ACTUAL_FILE} &> /dev/null
+   echo ${RES}
+   popd &> /dev/null
 }
 
 main $@
