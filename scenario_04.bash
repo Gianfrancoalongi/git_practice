@@ -31,6 +31,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 2.2 Git Basics - Recording Changes to the Repository
+http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository
 EOF
 }
 
