@@ -155,7 +155,7 @@ run_scenario()
    POINTS=10
    # print some instructions
    cat <<EOF
-Hi there, you're now executing in a separate shell process, and you'r current
+Hi there, you're now executing in a separate shell process, and your current
 working directory is the GIT repository automatically created for the current 
 exercise. As soon as you have finished with the exercise, please type exit and
 your work will be validated by the script.
