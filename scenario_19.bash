@@ -73,7 +73,9 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 6.5 Git Tools - Debugging with Git
+http://git-scm.com/book/en/Git-Tools-Debugging-with-Git
 Chapter 6.4 Git Tools - Rewriting History
+http://git-scm.com/book/en/Git-Tools-Rewriting-History
 EOF
 }
 

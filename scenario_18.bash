@@ -54,6 +54,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 6.4 Git Tools - Rewriting History
+http://git-scm.com/book/en/Git-Tools-Rewriting-History
 EOF
 }
 

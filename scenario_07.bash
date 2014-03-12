@@ -36,6 +36,7 @@ generate_help_file() {
     cat > help.txt <<EOF
 Chapter 2.4 Git Basics - Undoing Things
  subchapter Unmodifying a Modified File
+http://git-scm.com/book/en/Git-Basics-Undoing-Things
 EOF
 }
 

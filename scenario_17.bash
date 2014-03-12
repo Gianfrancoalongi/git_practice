@@ -41,6 +41,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 6.3 Git Tools - Stashing
+http://git-scm.com/book/en/Git-Tools-Stashing
 EOF
 }
 
