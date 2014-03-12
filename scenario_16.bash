@@ -87,6 +87,7 @@ generate_help_file() {
     cat > help.txt <<EOF
 Chapter 5.3 Distributed Git - Maintaining a Project
   paragraph 'Rebasing and Cherry Picking Workflows'
+http://git-scm.com/book/en/Distributed-Git-Maintaining-a-Project
 Git man pages: git help cherry-pick
 EOF
 }

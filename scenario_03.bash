@@ -32,6 +32,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 1.5 Getting Started - First Time Git Setup
+http://git-scm.com/book/en/Getting-Started-First-Time-Git-Setup
 EOF
 }
 

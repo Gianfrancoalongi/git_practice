@@ -49,6 +49,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 2.5 Git Basics - Working with Remotes
+http://git-scm.com/book/en/Git-Basics-Working-with-Remotes
 Git man page: git help remote
 EOF
 }

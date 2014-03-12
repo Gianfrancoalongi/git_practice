@@ -40,6 +40,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 3.6 Git Branching - Rebasing
+http://git-scm.com/book/en/Git-Branching-Rebasing
 EOF
 }
 

@@ -53,6 +53,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 3.5 Git Branching - Remote Branches
+http://git-scm.com/book/en/Git-Branching-Remote-Branches
 Git man pages: git help push
                git help remote
 EOF

@@ -44,6 +44,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 You can read Chapter 2.1 Git Basics - Getting a Git Repository
+http://git-scm.com/book/en/Git-Basics-Getting-a-Git-Repository
 EOF
 }
 

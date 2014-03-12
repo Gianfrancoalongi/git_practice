@@ -34,6 +34,7 @@ EOF
 generate_help_file() {
     cat > help.txt <<EOF
 Chapter 3.2 Git Branching - Basic Branching and Merging
+http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging
 EOF
 }
 
